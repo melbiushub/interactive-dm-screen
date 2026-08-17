@@ -2,7 +2,7 @@
 
 A blank, fully-customizable digital DM screen for 5th Edition (2024 rules). Single self-contained HTML file — no install, no build step, no server, no account. Open it in a browser and everything (edits, trackers, notes) autosaves to that browser.
 
-**[Play it on itch.io →](#)** *(link once published)*
+**[Play it on itch.io →](https://melbius.itch.io/interactive-dm-screen)**
 
 ## What it is
 
