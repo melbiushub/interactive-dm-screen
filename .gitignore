@@ -1,0 +1,2 @@
+# Build artifact — regenerate with: zip -r dm_screen_template.zip index.html
+*.zip

@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>INTERACTIVE DM SCREEN — Blank Template</title>
+<style>
+:root{
+  --bg:#0f0e1a; --panel:#161427; --panel2:#1d1a33; --gold:#c9a84c; --red:#7a1313; --redbright:#b3251f;
+  --text:#e8e3d0; --muted:#9b95b5; --border:#3a3458;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Georgia','Times New Roman',serif;}
+header{background:linear-gradient(180deg,#1a1730,#0f0e1a);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;}
+header h1{margin:0;color:var(--gold);font-size:22px;letter-spacing:2px;font-style:italic;outline:none;}
+header h1[contenteditable]:hover{border-bottom:1px dashed var(--gold);}
+header .sub{color:var(--muted);font-size:12px;}
+.timerbox{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--gold);border-radius:6px;padding:6px 12px;}
+.timerbox .tdisplay{font-size:22px;color:var(--gold);min-width:80px;text-align:center;letter-spacing:1px;}
+.timerbox.warn .tdisplay{color:#f3c8c8;}
+.timerbox input[type=number]{width:50px;}
+.editable{outline:none;}
+.editable[contenteditable="true"]:hover{box-shadow:inset 0 -1px 0 0 var(--gold);}
+.editable[contenteditable="false"]{cursor:default;}
+.del:disabled,button.act:disabled{opacity:0.35;cursor:not-allowed;}
+#modeToggleBtn.sel{background:var(--redbright);border-color:var(--gold);color:#fff;}
+.del{background:none;border:1px solid var(--redbright);color:#f3c8c8;border-radius:4px;cursor:pointer;font-size:11px;padding:2px 7px;}
+.del:hover{background:var(--redbright);color:#fff;}
+.addbar{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.addbar input,.addbar textarea{background:#0f0e1a;color:var(--text);border:1px solid var(--border);border-radius:4px;padding:6px;font-family:inherit;}
+nav{display:flex;flex-wrap:wrap;gap:6px;background:var(--panel);padding:8px 16px;border-bottom:1px solid var(--border);position:sticky;top:62px;z-index:49;}
+nav button{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:8px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:13px;letter-spacing:0.5px;}
+nav button.active{background:var(--red);border-color:var(--gold);color:#fff;}
+nav button:hover{border-color:var(--gold);}
+main{max-width:1100px;margin:0 auto;padding:20px 24px 80px;}
+.tab{display:none;}
+.tab.active{display:block;}
+h2.section{color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:6px;letter-spacing:1px;}
+h3{color:#d6a8a0;margin-top:24px;}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;}
+.danger{background:#2a1212;border:1px solid var(--redbright);color:#f3c8c8;padding:10px 14px;border-radius:6px;font-style:italic;margin:10px 0;}
+.readaloud{background:#1c1830;border-left:3px solid var(--gold);padding:10px 14px;font-style:italic;color:#dcd6f0;margin:10px 0;}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;}
+th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;vertical-align:top;}
+th{background:var(--red);color:#fff;}
+tr:nth-child(even){background:#1a1730;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid3{grid-template-columns:1fr;}}
+.statblock{background:#1b1730;border:1px solid var(--gold);border-radius:6px;padding:14px;}
+.statblock h4{margin:0 0 6px;color:var(--gold);font-style:italic;}
+.hpbar{height:18px;background:#3a1414;border-radius:4px;overflow:hidden;border:1px solid var(--border);margin:4px 0;}
+.hpfill{height:100%;background:linear-gradient(90deg,#7a1313,#b3251f);transition:width .2s;}
+.row{display:flex;align-items:center;gap:8px;margin:6px 0;flex-wrap:wrap;}
+input[type=number]{width:70px;background:#0f0e1a;color:var(--text);border:1px solid var(--border);padding:4px;border-radius:4px;}
+input[type=text]{background:#0f0e1a;color:var(--text);border:1px solid var(--border);padding:4px;border-radius:4px;font-family:inherit;}
+button.act{background:var(--panel2);border:1px solid var(--gold);color:var(--gold);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:12px;}
+button.act:hover{background:var(--red);color:#fff;}
+button.act.sel{background:var(--red);color:#fff;}
+.toggle{cursor:pointer;user-select:none;}
+.pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;border:1px solid var(--border);margin-left:6px;}
+.pill.on{background:var(--red);border-color:var(--gold);color:#fff;}
+.goal-card{background:#1b1730;border:1px solid var(--gold);border-radius:8px;padding:14px;cursor:pointer;position:relative;min-height:90px;}
+.goal-card .back{display:none;}
+.goal-card.flipped .front{display:none;}
+.goal-card.flipped .back{display:block;}
+.flag{color:#aaa;font-size:11px;}
+.checklist label{display:block;margin:4px 0;}
+.checklist input{margin-right:8px;}
+.purge-track{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0;}
+.rnd{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;background:#1a1730;}
+.rnd.done{background:var(--red);border-color:var(--gold);color:#fff;}
+.rnd.fail.done{background:#2a1212;border-color:var(--redbright);color:#f3c8c8;}
+.log{background:#0f0e1a;border:1px solid var(--border);border-radius:6px;padding:8px;height:140px;overflow-y:auto;font-size:13px;color:var(--muted);}
+.die{font-size:48px;text-align:center;color:var(--gold);margin:10px 0;}
+.notes{width:100%;min-height:80px;background:#0f0e1a;color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px;font-family:inherit;}
+.quote{font-style:italic;color:#b89aa0;text-align:center;margin:18px 0;}
+.smallmuted{color:var(--muted);font-size:12px;}
+.tensionmeter{display:flex;gap:4px;margin:10px 0;}
+.tensionseg{flex:1;height:14px;border-radius:3px;background:#2a2545;border:1px solid var(--border);}
+.tensionseg.on{background:linear-gradient(90deg,var(--red),var(--redbright));border-color:var(--gold);}
+.trapcard{border-left:3px solid var(--redbright);}
+.trapcard.disarmed{border-left:3px solid #4a7a4a;opacity:0.75;}
+.trapcard.triggered{border-left:3px solid var(--gold);}
+.diceresult{color:var(--gold);font-weight:bold;margin-left:8px;}
+.legres{width:26px;height:26px;border-radius:50%;border:1px solid var(--gold);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;background:#1a1730;color:var(--gold);font-size:12px;}
+.legres.spent{background:#2a1212;color:#5a5060;border-color:var(--border);}
+.pctag{display:inline-block;background:var(--panel2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px;color:var(--muted);margin-left:6px;}
+td,th,.editable,.card,.statblock,.goal-card,.trapcard{overflow-wrap:anywhere;}
+@media(max-width:480px){
+  .rnd{width:38px;height:38px;}
+  .legres{width:30px;height:30px;}
+  button.act,.del{padding:7px 12px;font-size:13px;}
+  nav button{padding:9px 12px;}
+}
+.onboarding{background:#1c1830;border:1px solid var(--gold);border-radius:8px;padding:16px;margin-bottom:14px;}
+.onboarding h3{margin-top:0;}
+@media print{
+  body{background:#fff !important;color:#111 !important;}
+  header .timerbox,nav,#storageBanner,button.act,.del,.addbar,input[type=file],.onboarding,#printBtn{display:none !important;}
+  main{max-width:100%;padding:0;}
+  .card,.statblock,.goal-card,.trapcard{background:#fff !important;border:1px solid #999 !important;color:#111 !important;break-inside:avoid;}
+  h1,h2.section,h3,h4{color:#111 !important;}
+  .smallmuted,.flag{color:#555 !important;}
+  .danger{background:#fff !important;border:1px solid #900 !important;color:#900 !important;}
+  .readaloud{background:#fff !important;border-left:3px solid #999 !important;color:#111 !important;}
+  th{background:#ddd !important;color:#111 !important;}
+  tr:nth-child(even){background:#f5f5f5 !important;}
+  input[type=text],input[type=number]{border:1px solid #999 !important;background:#fff !important;color:#111 !important;}
+  .hpbar{border:1px solid #999 !important;}
+  .rnd{border:1px solid #999 !important;background:#fff !important;color:#111 !important;}
+  .rnd.done{background:#ddd !important;}
+  .goal-card .front{display:none !important;}
+  .goal-card .back{display:block !important;}
+  details:not([open]) summary{color:#111 !important;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div><h1 id="sessionTitle" contenteditable="true" spellcheck="false">INTERACTIVE DM SCREEN</h1><div class="sub" id="sessionSub" contenteditable="true" spellcheck="false">Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)</div></div>
+  <div class="timerbox" id="timerBox">
+    <span class="tdisplay" id="tDisplay">00:00</span>
+    <input type="number" id="tMinutes" min="0" placeholder="min" style="width:46px;">
+    <button class="act" id="tStart">Start</button>
+    <button class="act" id="tPause">Pause</button>
+    <button class="act" id="tReset">Reset</button>
+  </div>
+  <button class="act" id="printBtn" title="Print the currently open tab">Print This Tab</button>
+  <button class="act" id="modeToggleBtn" title="Play Mode locks all text and delete buttons so nothing gets accidentally changed or removed mid-session"></button>
+</header>
+<div id="storageBanner" style="display:none;"></div>
+<nav id="nav"></nav>
+<main id="main"></main>
+
+<script>
+const TABS = ["Overview","Goals & Secrets","Locations","Traps & Encounters","Random Events","Climax Tracker","Combat Tracker","Villain","Stat Blocks","Party Tracker","NPC Relationships","Session Recap","Notes","Backup & Setup"];
+const SCHEMA_VERSION = 1;
+const TEMPLATE_VERSION = '1.3.0';
+let storageWarning = '';
+let state = {};
+try{
+  state = JSON.parse(localStorage.getItem('dmScreenState')||'{}');
+}catch(e){
+  state = {};
+  storageWarning = 'Local storage is unavailable in this browser/context — your progress will NOT be saved automatically. Use Backup & Setup to export a .json backup manually before closing this tab.';
+}
+function save(){
+  try{
+    localStorage.setItem('dmScreenState', JSON.stringify(state));
+    storageWarning = '';
+  }catch(e){
+    if(e && (e.name==='QuotaExceededError' || e.code===22 || e.code===1014)){
+      storageWarning = 'Local storage is full — new changes are NOT being saved. Go to Backup & Setup and download a backup immediately, then delete old Session Recap entries to free up space.';
+    } else {
+      storageWarning = 'Local storage is unavailable in this browser/context — changes are NOT being saved automatically. Use Backup & Setup to export a .json backup manually.';
+    }
+  }
+  updateStorageBanner();
+}
+function updateStorageBanner(){
+  const el = document.getElementById('storageBanner');
+  if(!el) return;
+  if(storageWarning){
+    el.style.display='block';
+    el.style.margin='0';
+    el.style.borderRadius='0';
+    el.style.textAlign='center';
+    el.style.background='#2a1212';
+    el.style.borderBottom='1px solid var(--redbright)';
+    el.style.color='#f3c8c8';
+    el.style.padding='8px 16px';
+    el.style.fontStyle='italic';
+    el.textContent = storageWarning;
+  } else {
+    el.style.display='none';
+  }
+}
+function get(k,d){ return state[k]!==undefined?state[k]:d; }
+function set(k,v){ state[k]=v; save(); }
+
+// ---- Generic edit-in-place helpers: every ed()/eb() field is a state-backed override ----
+function ed(key, def){ const v=get(key,def); return `<span class="editable" contenteditable="true" spellcheck="false" data-edit="${key}">${v}</span>`; }
+function eb(key, def){ const v=get(key,def); return `<div class="editable" contenteditable="true" spellcheck="false" data-edithtml="${key}">${v}</div>`; }
+function wireEditables(){
+  document.querySelectorAll('[data-edit]').forEach(el=>{
+    el.onblur=()=>set(el.dataset.edit, el.textContent.trim());
+  });
+  document.querySelectorAll('[data-edithtml]').forEach(el=>{
+    el.onblur=()=>set(el.dataset.edithtml, el.innerHTML.trim());
+  });
+}
+
+function initHeader(){
+  const title=document.getElementById('sessionTitle');
+  const sub=document.getElementById('sessionSub');
+  title.textContent = get('sessionTitle','INTERACTIVE DM SCREEN');
+  sub.textContent = get('sessionSub','Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)');
+  title.onblur=()=>set('sessionTitle', title.textContent.trim()||'INTERACTIVE DM SCREEN');
+  sub.onblur=()=>set('sessionSub', sub.textContent.trim());
+  const printBtn=document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick=()=>window.print();
+  const modeBtn=document.getElementById('modeToggleBtn');
+  if(modeBtn) modeBtn.onclick=()=>{ set('playMode', !get('playMode',false)); applyEditLock(); };
+}
+// Play Mode locks every text field and delete button so nothing gets accidentally changed or removed mid-session.
+// Gameplay controls (checkboxes, dice, HP, round trackers, Add/Clone) stay active — only editing existing text and deleting are blocked.
+function applyEditLock(){
+  const playMode = get('playMode', false);
+  document.querySelectorAll('[contenteditable]').forEach(el=>{ el.contentEditable = playMode ? 'false' : 'true'; });
+  document.querySelectorAll('.del').forEach(btn=>{ btn.disabled = playMode; });
+  const modeBtn=document.getElementById('modeToggleBtn');
+  if(modeBtn){
+    modeBtn.textContent = playMode ? 'Play Mode (locked)' : 'Edit Mode (unlocked)';
+    modeBtn.classList.toggle('sel', playMode);
+  }
+}
+// Auto-expand every collapsed <details> for print, then restore afterward so on-screen state is untouched.
+window.addEventListener('beforeprint', ()=>{
+  document.querySelectorAll('details').forEach(d=>{ d.dataset.wasOpen = d.open ? '1' : '0'; d.open = true; });
+});
+window.addEventListener('afterprint', ()=>{
+  document.querySelectorAll('details').forEach(d=>{ d.open = d.dataset.wasOpen === '1'; delete d.dataset.wasOpen; });
+});
+
+// ---- Debounce (avoid a localStorage write on every keystroke in long text fields) ----
+function debounce(fn, wait){
+  let t;
+  return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); };
+}
+
+// ---- Dice ----
+function rollDiceStr(str){
+  const m = String(str).match(/(\d+)\s*d\s*(\d+)\s*([+-]\s*\d+)?/i);
+  if(!m) return null;
+  const n=parseInt(m[1]), d=parseInt(m[2]), mod=m[3]?parseInt(m[3].replace(/\s+/g,'')):0;
+  let total=mod, rolls=[];
+  for(let i=0;i<n;i++){ const r=Math.floor(Math.random()*d)+1; rolls.push(r); total+=r; }
+  return {total, rolls, mod, str};
+}
+function wireDiceButtons(logKey){
+  document.querySelectorAll('[data-roll]').forEach(btn=>{
+    btn.onclick=()=>{
+      const res = rollDiceStr(btn.dataset.roll);
+      if(!res) return;
+      const out = document.getElementById(btn.dataset.rollout);
+      if(out) out.textContent = `${res.total} (${res.rolls.join('+')}${res.mod?(res.mod>0?'+':'')+res.mod:''})`;
+      if(logKey){
+        const log = get(logKey, []);
+        log.unshift(`Rolled ${btn.dataset.roll}${btn.dataset.rolllabel?' — '+btn.dataset.rolllabel:''}: ${res.total}`);
+        set(logKey, log.slice(0,60));
+        const box = document.getElementById(logKey+'Box');
+        if(box) box.innerHTML = log.map(l=>`<div>• ${l}</div>`).join('');
+      }
+    };
+  });
+}
+
+// ---- Timer ----
+function fmtTime(s){
+  if(s<0) s=0;
+  const m=Math.floor(s/60), sec=Math.floor(s%60);
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+let timerInterval=null;
+function tickTimer(){
+  const box=document.getElementById('timerBox');
+  const disp=document.getElementById('tDisplay');
+  if(!box||!disp) return;
+  const running = get('timerRunning', false);
+  const endAt = get('timerEndAt', null);
+  const remaining = get('timerRemaining', 0);
+  let secs;
+  if(running && endAt){
+    secs = (endAt - Date.now())/1000;
+    if(secs<=0){ secs=0; set('timerRunning',false); set('timerRemaining',0); clearInterval(timerInterval); timerInterval=null; }
+  } else {
+    secs = remaining;
+  }
+  disp.textContent = fmtTime(secs);
+  box.classList.toggle('warn', secs>0 && secs<=60);
+}
+function initTimer(){
+  document.getElementById('tMinutes').value = get('timerMinutesInput','');
+  tickTimer();
+  if(get('timerRunning',false) && !timerInterval){
+    timerInterval = setInterval(tickTimer, 1000);
+  }
+  document.getElementById('tStart').onclick=()=>{
+    let remaining = get('timerRemaining', 0);
+    if(remaining<=0){
+      const mins = parseFloat(document.getElementById('tMinutes').value)||0;
+      remaining = mins*60;
+    }
+    if(remaining<=0) return;
+    set('timerRemaining', remaining);
+    set('timerEndAt', Date.now()+remaining*1000);
+    set('timerRunning', true);
+    if(!timerInterval) timerInterval=setInterval(tickTimer,1000);
+    tickTimer();
+  };
+  document.getElementById('tPause').onclick=()=>{
+    const running=get('timerRunning',false);
+    if(running){
+      const endAt=get('timerEndAt',Date.now());
+      const remaining=Math.max(0,(endAt-Date.now())/1000);
+      set('timerRemaining', remaining);
+      set('timerRunning', false);
+      clearInterval(timerInterval); timerInterval=null;
+    }
+    tickTimer();
+  };
+  document.getElementById('tReset').onclick=()=>{
+    set('timerRunning', false);
+    set('timerRemaining', 0);
+    set('timerEndAt', null);
+    clearInterval(timerInterval); timerInterval=null;
+    tickTimer();
+  };
+  document.getElementById('tMinutes').oninput=(e)=>{ set('timerMinutesInput', e.target.value); };
+}
+
+function renderNav(active){
+  const nav=document.getElementById('nav');
+  nav.innerHTML='';
+  TABS.forEach(t=>{
+    const b=document.createElement('button');
+    b.textContent=t;
+    if(t===active) b.classList.add('active');
+    b.onclick=()=>{ set('activeTab',t); renderAll(); };
+    nav.appendChild(b);
+  });
+}
+
+function checklist(id, items, editableText){
+  const checked = get(id, {});
+  const overrides = editableText ? get(id+'_txt', {}) : {};
+  let html = '<div class="checklist">';
+  items.forEach((label,i)=>{
+    const key=i+'';
+    const text = editableText && overrides[key]!==undefined ? overrides[key] : label;
+    const textHtml = editableText
+      ? `<span class="editable" contenteditable="true" spellcheck="false" data-clitem="${id}" data-i="${key}" onclick="event.stopPropagation()">${text}</span>`
+      : text;
+    html+=`<label><input type="checkbox" data-cl="${id}" data-i="${key}" ${checked[key]?'checked':''}> ${textHtml}</label>`;
+  });
+  html+='</div>';
+  return html;
+}
+function wireChecklists(){
+  document.querySelectorAll('input[data-cl]').forEach(cb=>{
+    cb.onchange=()=>{
+      const id=cb.dataset.cl, i=cb.dataset.i;
+      const obj = get(id,{});
+      obj[i]=cb.checked;
+      set(id,obj);
+    };
+  });
+  document.querySelectorAll('[data-clitem]').forEach(el=>{
+    el.onblur=()=>{
+      const id=el.dataset.clitem, i=el.dataset.i;
+      const obj = get(id+'_txt',{});
+      obj[i]=el.textContent.trim();
+      set(id+'_txt',obj);
+    };
+  });
+}
+
+// ---- Tension meter (shared pacing tool) ----
+const TENSION = [
+ {name:"Calm", die:"—", effect:"No lingering tension yet. No mechanical effect — let atmosphere do the work."},
+ {name:"Uneasy", die:"d4", effect:"Whenever the party searches a room or tries to rest, roll the Tension Die; on the highest result, a Random Event (see that tab) triggers immediately, no waiting for the clock."},
+ {name:"On Edge", die:"d6", effect:"Any PC who witnesses something significant makes a DC13 Wisdom save. Failure: disadvantage on the next attack roll or ability check they make."},
+ {name:"Rattled", die:"d8", effect:"DC15 Wisdom save or the Frightened condition until the end of the PC's next turn."},
+ {name:"Panicked", die:"d10", effect:"DC17 Wisdom save or the PC's next turn must be spent Dashing away or using the Hide action — no other actions or reactions."},
+ {name:"Overwhelmed", die:"d12", effect:"DC19 Wisdom save or the Paralyzed condition until the end of their next turn. An ally within 5 ft can spend an action to snap them out of it, no check required."}
+];
+function renderTensionMeter(){
+  const lvl = get('tensionLevel', 0);
+  const d = TENSION[lvl];
+  let segs='';
+  for(let i=1;i<=5;i++) segs+=`<div class="tensionseg ${i<=lvl?'on':''}" data-tensionseg="${i}" title="Level ${i}"></div>`;
+  return `<div class="card">
+    <h3 style="margin-top:0">Tension Meter <span class="pctag">Tension Die: ${d.die}</span></h3>
+    <p class="smallmuted">Optional pacing tool built entirely from standard 2024 conditions (Frightened, Paralyzed) and Wisdom saves — nothing new to teach the table. Escalate it on big moments, ease it during safe scenes. Delete this card if your game doesn't need it.</p>
+    <div class="tensionmeter">${segs}</div>
+    <div class="row"><b>${d.name}</b> — ${d.effect}</div>
+    <div class="row">
+      <button class="act" id="tensionUp">Escalate Tension</button>
+      <button class="act" id="tensionDown">Ease Tension</button>
+      <button class="act" id="tensionReset">Reset to Calm</button>
+    </div>
+  </div>`;
+}
+function wireTensionMeter(){
+  const up=document.getElementById('tensionUp');
+  if(up) up.onclick=()=>{ set('tensionLevel', Math.min(5,get('tensionLevel',0)+1)); renderAll(); };
+  const dn=document.getElementById('tensionDown');
+  if(dn) dn.onclick=()=>{ set('tensionLevel', Math.max(0,get('tensionLevel',0)-1)); renderAll(); };
+  const rs=document.getElementById('tensionReset');
+  if(rs) rs.onclick=()=>{ set('tensionLevel',0); renderAll(); };
+  document.querySelectorAll('[data-tensionseg]').forEach(s=>{
+    s.onclick=()=>{ set('tensionLevel', parseInt(s.dataset.tensionseg)); renderAll(); };
+  });
+}
+
+const OVERVIEW_FACTS = [
+ ["ov_f0","Setting","Click to describe where and when your campaign takes place."],
+ ["ov_f1","Party","e.g. 4 characters, Level 5"],
+ ["ov_f2","Central Conflict","What's driving this arc? What do the players want, and what's in the way?"],
+ ["ov_f3","Villain","Name and a one-line hook — fill in full details on the Villain tab."],
+ ["ov_f4","Villain's Edge","What makes them dangerous, or hard to permanently beat?"],
+ ["ov_f5","Current Crisis","What's the ticking clock or immediate threat?"],
+ ["ov_f6","Stakes","What happens if the party fails?"],
+ ["ov_f7","Ruleset","5th Edition (2024 rules) compatible"]
+];
+function renderOnboarding(){
+  if(get('onboardingDismissed', false)) return '';
+  return `<div class="onboarding">
+  <h3>New here? Quick orientation</h3>
+  <p>This is a blank template — every table cell, card, and paragraph you see is a placeholder you're meant to type over. A few things worth knowing before you start:</p>
+  <ul style="margin:0 0 10px;padding-left:20px;">
+    <li><b>Click any text to edit it.</b> It saves the moment you click away — no Save button anywhere.</li>
+    <li><b>Everything autosaves to this browser.</b> No account, no login, nothing to configure.</li>
+    <li>Check <b>Backup &amp; Setup</b> to export a safety copy, or to wipe this browser's progress and start a fresh campaign from the same file.</li>
+    <li>Most lists (Locations, Traps, Goals, NPCs, Party, Stat Blocks) have <b>+ Add</b> and <b>Clone</b> buttons — nothing is capped at the starting count.</li>
+  </ul>
+  <button class="act" id="dismissOnboardingBtn">Got it, hide this</button>
+  </div>`;
+}
+function renderOverview(){
+  return `
+  ${renderOnboarding()}
+  <h2 class="section">Campaign at a Glance</h2>
+  <p class="smallmuted">Every field on this page — including all the prose below — is click-to-edit. Click any table cell, paragraph, or card body to type over it; it saves automatically on click-away. This whole tool starts blank on purpose: replace every placeholder with your own campaign.</p>
+  <div class="card">
+  <table>
+  <tr><th>Feature</th><th>Detail</th></tr>
+  ${OVERVIEW_FACTS.map(([key,label,def])=>`<tr><td>${ed(key+'_label',label)}</td><td>${ed(key,def)}</td></tr>`).join('')}
+  </table>
+  </div>
+  ${eb('ov_danger','DANGER RATING: [set this] — describe how lethal this arc is meant to be and why, so you can pace threats consistently.').replace('class="editable"','class="editable danger"')}
+  <h3>${ed('ov_scaleh','Encounter Scaling Notes')}</h3>
+  <div class="card">
+  ${eb('ov_scale1',"Use the core rulebook's per-character XP budgets (Low / Moderate / High) for your party's level, multiplied by party size, to gut-check any fight in this document. As a rule of thumb, keep monster action-count roughly equal to player action-count per round — that matters more than raw CR for how a fight actually feels at the table.").replace('class="editable"','class="editable smallmuted"')}
+  ${eb('ov_scale2','Add any house rules or table-specific balancing notes here.').replace('class="editable"','class="editable smallmuted"')}
+  </div>
+  <h3>Tone &amp; Theme</h3>
+  <div class="card">${eb('ov_tone','Describe the tone, genre, themes, and any content notes for this campaign.')}</div>
+  <h3>Campaign Lore (DM reference — click to expand)</h3>
+  <details class="card"><summary style="cursor:pointer;color:var(--gold)">Full backstory</summary>
+  ${eb('ov_lore1',"Write your villain's or campaign's origin story here.")}
+  ${eb('ov_lore2','What is their curse, weakness, or limitation? What can the party actually exploit?')}
+  </details>
+  <h3>Key Mechanic (DM reference)</h3>
+  <details class="card"><summary style="cursor:pointer;color:var(--gold)">Full mechanics &amp; lore</summary>
+  ${eb('ov_mechanic','Describe any unique mechanic central to this campaign — a cursed item, a magical bargain, a countdown, a signature villain ability. Delete this section if you don\'t need it.')}
+  </details>
+  <p class="quote">${ed('ov_quote','"Add a memorable quote here." — Someone, Somewhere')}</p>
+  `;
+}
+
+const DEFAULT_GOALS = [
+ {n:"The Protector", win:"Everyone the party is trying to save survives", fail:"Someone they were protecting dies", success:"Everyone protected survives", partial:"Most survive, some don't", failure:"A protected NPC dies"},
+ {n:"The Collector", win:"Acquire the key item or objective intact", fail:"The item is destroyed or lost", success:"Item recovered intact", partial:"Item recovered but damaged/incomplete", failure:"Item destroyed or lost"},
+ {n:"The Destroyer", win:"Permanently defeat the main threat", fail:"The threat survives in any form", success:"Threat permanently destroyed", partial:"Destroyed but may return", failure:"Threat survives"},
+ {n:"The Redeemer", win:"Save or redeem a key NPC", fail:"That NPC dies or is lost to the enemy", success:"NPC saved and redeemed", partial:"NPC saved but not redeemed", failure:"NPC dies or is lost"},
+ {n:"The Escapee", win:"Get out before the deadline", fail:"Still there when time runs out", success:"Escaped before the deadline", partial:"Escaped, but late/costly", failure:"Still there when time runs out"}
+];
+function getGoalsList(){
+  const stored = get('goalsList', null);
+  if(stored) return stored;
+  return DEFAULT_GOALS.map((g,i)=>({id:'g'+i, ...g}));
+}
+function renderGoals(){
+  const assign = get('goalAssign', {});
+  const goals = getGoalsList();
+  let cards = goals.map((a,i)=>{
+    const flipped = get('goalFlip'+a.id,false);
+    const playerName = assign[a.id]||'';
+    return `<div class="goal-card ${flipped?'flipped':''}" data-goal="${a.id}">
+      <div class="front"><b>Sealed Goal #${i+1}</b><br><span class="flag">Click to reveal (DM eyes / pass device to player)</span><br>
+      <input type="text" placeholder="Player name" value="${playerName}" data-assign="${a.id}" onclick="event.stopPropagation()" style="margin-top:8px;width:100%;background:#0f0e1a;color:var(--text);border:1px solid var(--border);border-radius:4px;padding:4px;">
+      </div>
+      <div class="back">
+      <button class="del" data-delgoal="${a.id}" onclick="event.stopPropagation()" style="float:right;">delete</button>
+      <span class="editable" contenteditable="true" spellcheck="false" data-goalfield="n" data-goalid="${a.id}" style="font-weight:bold;">${a.n}</span><br>
+      <span class="smallmuted">Win:</span> <span class="editable" contenteditable="true" spellcheck="false" data-goalfield="win" data-goalid="${a.id}">${a.win}</span><br>
+      <span class="smallmuted">Fail:</span> <span class="editable" contenteditable="true" spellcheck="false" data-goalfield="fail" data-goalid="${a.id}">${a.fail}</span>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+  <h2 class="section">Player Goals &amp; Secrets</h2>
+  <div class="smallmuted">${eb('goal_intro','Sealed and secret. Hand these out to create personal stakes and optional table tension — players may lie about their goal. Edit the names, win, and fail conditions to fit your story; add or drop cards as needed.')}</div>
+  <div class="row"><button class="act" id="addGoalBtn">+ Add Goal</button></div>
+  <div class="grid2" id="goalGrid">${cards}</div>
+  <h3>Resolution Reference</h3>
+  <p class="smallmuted">Every cell here is editable — update a goal's win/fail condition above and its row here to match.</p>
+  <div class="card"><table>
+  <tr><th>Goal</th><th>Success</th><th>Partial</th><th>Failure</th></tr>
+  ${goals.map(a=>`<tr><td><span class="editable" contenteditable="true" spellcheck="false" data-goalfield="n" data-goalid="${a.id}">${a.n}</span></td><td><span class="editable" contenteditable="true" spellcheck="false" data-goalfield="success" data-goalid="${a.id}">${a.success}</span></td><td><span class="editable" contenteditable="true" spellcheck="false" data-goalfield="partial" data-goalid="${a.id}">${a.partial}</span></td><td><span class="editable" contenteditable="true" spellcheck="false" data-goalfield="failure" data-goalid="${a.id}">${a.failure}</span></td></tr>`).join('')}
+  </table></div>`;
+}
+function wireGoals(){
+  document.querySelectorAll('.goal-card').forEach(c=>{
+    c.onclick=(e)=>{
+      if(e.target.tagName==='INPUT' || e.target.closest('[contenteditable]') || e.target.closest('button')) return;
+      const id=c.dataset.goal;
+      set('goalFlip'+id, !get('goalFlip'+id,false));
+      renderAll();
+    };
+  });
+  document.querySelectorAll('input[data-assign]').forEach(inp=>{
+    inp.onchange=()=>{
+      const assign=get('goalAssign',{});
+      assign[inp.dataset.assign]=inp.value;
+      set('goalAssign',assign);
+    };
+  });
+  document.querySelectorAll('[data-goalfield]').forEach(el=>{
+    el.onblur=()=>{
+      const goals=getGoalsList();
+      const g=goals.find(x=>x.id===el.dataset.goalid);
+      if(g){ g[el.dataset.goalfield]=el.textContent.trim(); set('goalsList',goals); renderAll(); }
+    };
+  });
+  const addGoalBtn=document.getElementById('addGoalBtn');
+  if(addGoalBtn) addGoalBtn.onclick=()=>{
+    const goals=getGoalsList();
+    goals.push({id:'g'+Date.now()+Math.floor(Math.random()*1000), n:'New Goal', win:'Describe the win condition.', fail:'Describe the fail condition.', success:'Describe success.', partial:'Describe partial success.', failure:'Describe failure.'});
+    set('goalsList',goals);
+    renderAll();
+  };
+  document.querySelectorAll('[data-delgoal]').forEach(b=>{
+    b.onclick=()=>{
+      let goals=getGoalsList();
+      const g=goals.find(x=>x.id===b.dataset.delgoal);
+      if(!confirm(`Delete goal "${g?.n||'this goal'}"? This cannot be undone.`)) return;
+      goals=goals.filter(x=>x.id!==b.dataset.delgoal);
+      set('goalsList',goals);
+      renderAll();
+    };
+  });
+}
+
+const LOCATIONS = [
+ {id:'A', name:"Location A", desc:"Click to describe this location.",
+  items:["Objective 1","Objective 2","Objective 3"]},
+ {id:'B', name:"Location B", desc:"Click to describe this location.",
+  items:["Objective 1","Objective 2","Objective 3"]},
+ {id:'C', name:"Location C", desc:"Click to describe this location.",
+  items:["Objective 1","Objective 2"]},
+ {id:'D', name:"Location D", desc:"Click to describe this location.",
+  items:["Objective 1","Objective 2"]}
+];
+// ---- Location sub-areas & maps (locref = "loc:A" for a preset, "custom:2" for a custom location) ----
+function getSubsFor(locref){
+  if(locref.startsWith('loc:')) return get('locSubs_'+locref.slice(4), []);
+  const ci=parseInt(locref.slice(7));
+  const c=get('customLocations',[]);
+  return (c[ci] && c[ci].subs) || [];
+}
+function setSubsFor(locref, subs){
+  if(locref.startsWith('loc:')){ set('locSubs_'+locref.slice(4), subs); return; }
+  const ci=parseInt(locref.slice(7));
+  const c=get('customLocations',[]);
+  c[ci].subs = subs;
+  set('customLocations', c);
+}
+function getMapFor(locref){
+  if(locref.startsWith('loc:')) return get('locMap_'+locref.slice(4), null);
+  const ci=parseInt(locref.slice(7));
+  const c=get('customLocations',[]);
+  return (c[ci] && c[ci].map) || null;
+}
+function setMapFor(locref, dataUrl){
+  if(locref.startsWith('loc:')){ set('locMap_'+locref.slice(4), dataUrl); return; }
+  const ci=parseInt(locref.slice(7));
+  const c=get('customLocations',[]);
+  c[ci].map = dataUrl;
+  set('customLocations', c);
+}
+let mapFlash = '';
+function processMapFile(file, callback){
+  if(!file.type.startsWith('image/')){ mapFlash='That file is not an image.'; renderAll(); return; }
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const maxDim = 1600;
+      let w=img.width, h=img.height;
+      if(w>maxDim || h>maxDim){
+        if(w>h){ h=Math.round(h*maxDim/w); w=maxDim; } else { w=Math.round(w*maxDim/h); h=maxDim; }
+      }
+      const canvas=document.createElement('canvas');
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      callback(canvas.toDataURL('image/jpeg',0.82));
+    };
+    img.onerror = ()=>{ mapFlash='Could not read that image file.'; renderAll(); };
+    img.src = e.target.result;
+  };
+  reader.onerror = ()=>{ mapFlash='Could not read that file.'; renderAll(); };
+  reader.readAsDataURL(file);
+}
+function renderSubs(locref){
+  const subs = getSubsFor(locref);
+  let html = subs.map(s=>{
+    const checked = s.checked || {};
+    return `<div class="card" style="background:#161320;margin-left:16px;border-left:2px solid var(--border);">
+    <div class="row">
+      <span class="editable" contenteditable="true" spellcheck="false" data-subfield="name" data-subid="${s.id}" data-locref="${locref}" style="font-weight:bold;flex:1;">${s.name}</span>
+      <button class="del" data-subdel="${s.id}" data-locref="${locref}">remove</button>
+    </div>
+    <p class="editable" contenteditable="true" spellcheck="false" data-subfield="desc" data-subid="${s.id}" data-locref="${locref}">${s.desc}</p>
+    <div class="checklist">${(s.items||[]).map((t,i)=>`<label><input type="checkbox" data-subitemcheck="${s.id}" data-locref="${locref}" data-i="${i}" ${checked[i]?'checked':''}> <span class="editable" contenteditable="true" spellcheck="false" data-subitemtext="${s.id}" data-locref="${locref}" data-i="${i}" onclick="event.stopPropagation()">${t}</span> <button class="del" data-subitemdel="${s.id}" data-locref="${locref}" data-i="${i}">remove</button></label>`).join('')}</div>
+    <div class="addbar">
+      <input type="text" placeholder="Add checklist line…" data-subadditem="${s.id}" data-locref="${locref}" style="flex:1;">
+      <button class="act" data-subadditembtn="${s.id}" data-locref="${locref}">Add</button>
+    </div>
+    </div>`;
+  }).join('');
+  html += `<div class="addbar" style="margin-left:16px;">
+    <input type="text" placeholder="New sub-location name…" data-newsubname="${locref}" style="flex:1;">
+    <button class="act" data-addsubbtn="${locref}">+ Add Sub-Location</button>
+  </div>`;
+  return html;
+}
+function renderMapSection(locref){
+  const mapUrl = getMapFor(locref);
+  return `<div style="margin-top:10px;">
+  <h4 style="margin:6px 0 4px;color:#d6a8a0;">Map</h4>
+  ${mapUrl?`<img src="${mapUrl}" style="max-width:100%;border:1px solid var(--border);border-radius:6px;display:block;margin-bottom:6px;">`:''}
+  <div class="row">
+    <input type="file" accept="image/*" data-mapfile="${locref}">
+    <button class="act" data-mapupload="${locref}">${mapUrl?'Replace Map':'Upload Map'}</button>
+    ${mapUrl?`<button class="del" data-mapremove="${locref}">Remove Map</button>`:''}
+  </div>
+  </div>`;
+}
+function renderLocations(){
+  const flash = mapFlash;
+  mapFlash='';
+  let html = '<h2 class="section">Locations</h2>';
+  html += '<p class="smallmuted">Click any name or description to edit it in place. Extra checklist lines, sub-locations, maps, and whole new locations can be added below — rename, delete, or add as many as your adventure needs.</p>';
+  if(flash) html += `<p class="smallmuted">${flash}</p>`;
+  LOCATIONS.forEach(loc=>{
+    const nameOverride = get('locName_'+loc.id, loc.name);
+    const descOverride = get('locDesc_'+loc.id, loc.desc);
+    const extra = get('locExtra_'+loc.id, []);
+    const locref = 'loc:'+loc.id;
+    html += `<div class="card">
+    <h3 style="margin-top:0">Location ${loc.id} — <span class="editable" contenteditable="true" data-locname="${loc.id}">${nameOverride}</span>
+      <button class="act" data-clonelocpreset="${loc.id}" style="font-size:11px;">Clone</button></h3>
+    <p class="editable" contenteditable="true" data-locdesc="${loc.id}">${descOverride}</p>
+    ${checklist('loc_'+loc.id, loc.items, true)}
+    ${extra.length?`<div class="checklist">${extra.map((t,i)=>`<label><input type="checkbox" data-clx="${loc.id}" data-i="${i}" ${get('locExtraChecked_'+loc.id,{})[i]?'checked':''}> ${t} <button class="del" data-delx="${loc.id}" data-i="${i}">remove</button></label>`).join('')}</div>`:''}
+    <div class="addbar">
+      <input type="text" placeholder="Add custom checklist line…" data-addextra="${loc.id}" style="flex:1;">
+      <button class="act" data-addextrabtn="${loc.id}">Add</button>
+    </div>
+    <h4 style="margin:10px 0 4px;color:#d6a8a0;">Sub-Locations</h4>
+    ${renderSubs(locref)}
+    ${renderMapSection(locref)}
+    </div>`;
+  });
+  const custom = get('customLocations', []);
+  custom.forEach((loc,ci)=>{
+    const locref = 'custom:'+ci;
+    html += `<div class="card">
+    <h3 style="margin-top:0">Custom — <span class="editable" contenteditable="true" data-customname="${ci}">${loc.name}</span>
+      <button class="act" data-cloneloccustom="${ci}" style="font-size:11px;">Clone</button>
+      <button class="del" data-delcustom="${ci}">delete location</button></h3>
+    <p class="editable" contenteditable="true" data-customdesc="${ci}">${loc.desc}</p>
+    <div class="checklist">${(loc.items||[]).map((t,i)=>`<label><input type="checkbox" data-customcl="${ci}" data-i="${i}" ${loc.checked&&loc.checked[i]?'checked':''}> <span class="editable" contenteditable="true" spellcheck="false" data-customitemtext="${ci}" data-i="${i}" onclick="event.stopPropagation()">${t}</span> <button class="del" data-delcustomitem="${ci}" data-i="${i}">remove</button></label>`).join('')}</div>
+    <div class="addbar">
+      <input type="text" placeholder="Add checklist line…" data-addcustomitem="${ci}" style="flex:1;">
+      <button class="act" data-addcustomitembtn="${ci}">Add</button>
+    </div>
+    <h4 style="margin:10px 0 4px;color:#d6a8a0;">Sub-Locations</h4>
+    ${renderSubs(locref)}
+    ${renderMapSection(locref)}
+    </div>`;
+  });
+  html += `<div class="card">
+  <h3 style="margin-top:0">+ Add New Location</h3>
+  <div class="addbar">
+    <input type="text" id="newLocName" placeholder="Location name">
+    <input type="text" id="newLocDesc" placeholder="Short description" style="flex:1;">
+    <button class="act" id="addLocBtn">Add Location</button>
+  </div>
+  </div>`;
+  return html;
+}
+function wireLocations(){
+  document.querySelectorAll('[data-clonelocpreset]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.clonelocpreset;
+      const loc=LOCATIONS.find(l=>l.id===id);
+      const name=get('locName_'+id, loc.name);
+      const desc=get('locDesc_'+id, loc.desc);
+      const overrides=get('loc_'+id+'_txt', {});
+      const items=loc.items.map((label,i)=> overrides[i+'']!==undefined?overrides[i+'']:label).concat(get('locExtra_'+id,[]));
+      const custom=get('customLocations',[]);
+      custom.push({name:name+' (Copy)', desc, items, checked:{}, subs: getSubsFor('loc:'+id).map(s=>({...s, id:'sub'+Date.now()+Math.floor(Math.random()*1000)+Math.floor(Math.random()*1000)})), map: getMapFor('loc:'+id)});
+      set('customLocations',custom);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-cloneloccustom]').forEach(b=>{
+    b.onclick=()=>{
+      const ci=parseInt(b.dataset.cloneloccustom);
+      const custom=get('customLocations',[]);
+      const loc=custom[ci];
+      custom.push({name:(loc.name||'Location')+' (Copy)', desc:loc.desc||'', items:[...(loc.items||[])], checked:{}, subs:(loc.subs||[]).map(s=>({...s, id:'sub'+Date.now()+Math.floor(Math.random()*1000)+Math.floor(Math.random()*1000)})), map: loc.map||null});
+      set('customLocations',custom);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-subfield]').forEach(el=>{
+    el.onblur=()=>{
+      const locref=el.dataset.locref;
+      const subs=getSubsFor(locref);
+      const s=subs.find(x=>x.id===el.dataset.subid);
+      if(s){ s[el.dataset.subfield]=el.textContent.trim(); setSubsFor(locref, subs); }
+    };
+  });
+  document.querySelectorAll('[data-subdel]').forEach(b=>{
+    b.onclick=()=>{
+      const locref=b.dataset.locref;
+      let subs=getSubsFor(locref);
+      const s=subs.find(x=>x.id===b.dataset.subdel);
+      if(!confirm(`Delete sub-location "${s?.name||'this area'}"? This cannot be undone.`)) return;
+      subs=subs.filter(x=>x.id!==b.dataset.subdel);
+      setSubsFor(locref, subs);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-subitemcheck]').forEach(cb=>{
+    cb.onchange=()=>{
+      const locref=cb.dataset.locref;
+      const subs=getSubsFor(locref);
+      const s=subs.find(x=>x.id===cb.dataset.subitemcheck);
+      if(s){ if(!s.checked) s.checked={}; s.checked[cb.dataset.i]=cb.checked; setSubsFor(locref, subs); }
+    };
+  });
+  document.querySelectorAll('[data-subitemtext]').forEach(el=>{
+    el.onblur=()=>{
+      const locref=el.dataset.locref;
+      const subs=getSubsFor(locref);
+      const s=subs.find(x=>x.id===el.dataset.subitemtext);
+      if(s){ s.items[parseInt(el.dataset.i)]=el.textContent.trim(); setSubsFor(locref, subs); }
+    };
+  });
+  document.querySelectorAll('[data-subitemdel]').forEach(b=>{
+    b.onclick=()=>{
+      const locref=b.dataset.locref;
+      const subs=getSubsFor(locref);
+      const s=subs.find(x=>x.id===b.dataset.subitemdel);
+      if(s){ s.items.splice(parseInt(b.dataset.i),1); setSubsFor(locref, subs); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-subadditembtn]').forEach(b=>{
+    b.onclick=()=>{
+      const locref=b.dataset.locref;
+      const inp=document.querySelector(`[data-subadditem="${b.dataset.subadditembtn}"][data-locref="${locref}"]`);
+      if(!inp.value.trim()) return;
+      const subs=getSubsFor(locref);
+      const s=subs.find(x=>x.id===b.dataset.subadditembtn);
+      if(s){ if(!s.items) s.items=[]; s.items.push(inp.value.trim()); setSubsFor(locref, subs); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-addsubbtn]').forEach(b=>{
+    b.onclick=()=>{
+      const locref=b.dataset.addsubbtn;
+      const inp=document.querySelector(`[data-newsubname="${locref}"]`);
+      if(!inp.value.trim()) return;
+      const subs=getSubsFor(locref);
+      subs.push({id:'sub'+Date.now()+Math.floor(Math.random()*1000), name:inp.value.trim(), desc:'', items:[], checked:{}});
+      setSubsFor(locref, subs);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-mapupload]').forEach(b=>{
+    b.onclick=()=>{
+      const locref=b.dataset.mapupload;
+      const fileInput=document.querySelector(`[data-mapfile="${locref}"]`);
+      const file=fileInput.files[0];
+      if(!file){ mapFlash='Choose an image file first.'; renderAll(); return; }
+      processMapFile(file, (dataUrl)=>{
+        setMapFor(locref, dataUrl);
+        mapFlash='';
+        renderAll();
+      });
+    };
+  });
+  document.querySelectorAll('[data-mapremove]').forEach(b=>{
+    b.onclick=()=>{
+      if(!confirm('Remove this map image? This cannot be undone.')) return;
+      setMapFor(b.dataset.mapremove, null);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-locname]').forEach(el=>{
+    el.onblur=()=>set('locName_'+el.dataset.locname, el.textContent.trim());
+  });
+  document.querySelectorAll('[data-locdesc]').forEach(el=>{
+    el.onblur=()=>set('locDesc_'+el.dataset.locdesc, el.textContent.trim());
+  });
+  document.querySelectorAll('[data-clx]').forEach(cb=>{
+    cb.onchange=()=>{
+      const id=cb.dataset.clx, i=cb.dataset.i;
+      const obj=get('locExtraChecked_'+id,{});
+      obj[i]=cb.checked;
+      set('locExtraChecked_'+id,obj);
+    };
+  });
+  document.querySelectorAll('[data-delx]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.delx, i=parseInt(b.dataset.i);
+      const arr=get('locExtra_'+id,[]);
+      arr.splice(i,1);
+      set('locExtra_'+id,arr);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-addextrabtn]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.addextrabtn;
+      const inp=document.querySelector(`[data-addextra="${id}"]`);
+      if(!inp.value.trim()) return;
+      const arr=get('locExtra_'+id,[]);
+      arr.push(inp.value.trim());
+      set('locExtra_'+id,arr);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-customname]').forEach(el=>{
+    el.onblur=()=>{
+      const custom=get('customLocations',[]);
+      custom[el.dataset.customname].name=el.textContent.trim();
+      set('customLocations',custom);
+    };
+  });
+  document.querySelectorAll('[data-customdesc]').forEach(el=>{
+    el.onblur=()=>{
+      const custom=get('customLocations',[]);
+      custom[el.dataset.customdesc].desc=el.textContent.trim();
+      set('customLocations',custom);
+    };
+  });
+  document.querySelectorAll('[data-customcl]').forEach(cb=>{
+    cb.onchange=()=>{
+      const custom=get('customLocations',[]);
+      const ci=cb.dataset.customcl;
+      if(!custom[ci].checked) custom[ci].checked={};
+      custom[ci].checked[cb.dataset.i]=cb.checked;
+      set('customLocations',custom);
+    };
+  });
+  document.querySelectorAll('[data-customitemtext]').forEach(el=>{
+    el.onblur=()=>{
+      const custom=get('customLocations',[]);
+      const ci=el.dataset.customitemtext, i=parseInt(el.dataset.i);
+      custom[ci].items[i]=el.textContent.trim();
+      set('customLocations',custom);
+    };
+  });
+  document.querySelectorAll('[data-delcustomitem]').forEach(b=>{
+    b.onclick=()=>{
+      const custom=get('customLocations',[]);
+      custom[b.dataset.delcustomitem].items.splice(parseInt(b.dataset.i),1);
+      set('customLocations',custom);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-addcustomitembtn]').forEach(b=>{
+    b.onclick=()=>{
+      const ci=b.dataset.addcustomitembtn;
+      const inp=document.querySelector(`[data-addcustomitem="${ci}"]`);
+      if(!inp.value.trim()) return;
+      const custom=get('customLocations',[]);
+      custom[ci].items.push(inp.value.trim());
+      set('customLocations',custom);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-delcustom]').forEach(b=>{
+    b.onclick=()=>{
+      const custom=get('customLocations',[]);
+      const idx=parseInt(b.dataset.delcustom);
+      if(!confirm(`Delete location "${custom[idx]?.name||'this location'}" and everything checked off in it? This cannot be undone.`)) return;
+      custom.splice(idx,1);
+      set('customLocations',custom);
+      renderAll();
+    };
+  });
+  const addLocBtn=document.getElementById('addLocBtn');
+  if(addLocBtn) addLocBtn.onclick=()=>{
+    const name=document.getElementById('newLocName').value.trim();
+    const desc=document.getElementById('newLocDesc').value.trim();
+    if(!name) return;
+    const custom=get('customLocations',[]);
+    custom.push({name, desc, items:[], checked:{}});
+    set('customLocations',custom);
+    renderAll();
+  };
+}
+
+// ---- Traps & Encounters ----
+const TRAPS = [
+ {id:'t1', name:"Trap 1", loc:"Location A",
+  read:"Describe what the party sees, hears, or feels when they encounter this trap.",
+  mech:"Describe how it's detected (DC + skill) and how it's disarmed (DC + skill/tool).",
+  effect:"Describe what happens when it triggers — save DC, damage dice, and any condition.", dmg:"2d6"},
+ {id:'t2', name:"Trap 2", loc:"Location B",
+  read:"Describe what the party sees, hears, or feels when they encounter this trap.",
+  mech:"Describe how it's detected and disarmed.",
+  effect:"Describe what happens when it triggers.", dmg:"4d6"}
+];
+const COURSES = [
+ {id:'course1', name:"Encounter Course 1", loc:"Wherever you want", stages:3,
+  desc:"A multi-stage gauntlet or set-piece. Advance one stage per round the party pushes forward, or take it slow and re-roll checks each stage.",
+  stageText:["Stage 1 — describe what happens.","Stage 2 — describe what happens.","Stage 3 — describe what happens."]}
+];
+function renderTraps(){
+  let html = `<h2 class="section">Traps &amp; Encounters</h2>
+  <p class="smallmuted">Uses standard 5th Edition (2024 rules) mechanics — ability saves, conditions, and trap damage scaled to your party's level. Add, edit, or delete any trap or course below to fit your adventure.</p>`;
+  html += renderTensionMeter();
+  html += `<h3>Standalone Traps</h3>`;
+  TRAPS.forEach(t=>{
+    const triggered = get('trap_'+t.id+'_trig', false);
+    const disarmed = get('trap_'+t.id+'_disarm', false);
+    const cls = disarmed?'disarmed':(triggered?'triggered':'');
+    const dmgVal = get('trap_'+t.id+'_dmg', t.dmg);
+    html += `<div class="card trapcard ${cls}">
+    <h4 style="margin:0 0 4px;color:var(--gold)">${ed('trap_'+t.id+'_name',t.name)} <span class="smallmuted">— ${ed('trap_'+t.id+'_loc',t.loc)}</span> <button class="act" data-clonetrappreset="${t.id}" style="font-size:11px;">Clone</button></h4>
+    ${eb('trap_'+t.id+'_read',t.read).replace('class="editable"','class="editable readaloud"')}
+    <p><b>Mechanics:</b> ${ed('trap_'+t.id+'_mech',t.mech)}</p>
+    <p><b>Effect:</b> ${ed('trap_'+t.id+'_effect',t.effect)}</p>
+    <div class="row">
+      Damage dice: ${ed('trap_'+t.id+'_dmg',t.dmg)}
+      ${dmgVal?`<button class="act" data-roll="${dmgVal}" data-rollout="out_${t.id}" data-rolllabel="${t.name}">Roll Damage</button><span class="diceresult" id="out_${t.id}"></span>`:''}
+    </div>
+    <div class="row">
+      <label><input type="checkbox" data-trapflag="${t.id}_trig" ${triggered?'checked':''}> Triggered</label>
+      <label><input type="checkbox" data-trapflag="${t.id}_disarm" ${disarmed?'checked':''}> Disarmed / Bypassed</label>
+    </div>
+    </div>`;
+  });
+  html += `<div class="addbar">
+    <input type="text" id="newTrapName" placeholder="New trap name">
+    <input type="text" id="newTrapLoc" placeholder="Location" style="flex:1;">
+    <button class="act" id="addTrapBtn">Add Trap</button>
+  </div>`;
+  const customTraps = get('customTraps',[]);
+  customTraps.forEach((t,ci)=>{
+    html += `<div class="card trapcard">
+    <h4 style="margin:0 0 4px;color:var(--gold)"><span class="editable" contenteditable="true" spellcheck="false" data-ctrapname="${ci}">${t.name}</span> <span class="smallmuted">— <span class="editable" contenteditable="true" spellcheck="false" data-ctraploc="${ci}">${t.loc}</span></span>
+    <button class="act" data-clonetrapcustom="${ci}" style="font-size:11px;">Clone</button>
+    <button class="del" data-delctrap="${ci}">delete</button></h4>
+    <div class="editable readaloud" contenteditable="true" spellcheck="false" data-ctrapread="${ci}">${t.read||'Read-aloud text…'}</div>
+    <p><b>Mechanics:</b> <span class="editable" contenteditable="true" spellcheck="false" data-ctrapmech="${ci}">${t.mech||'Detection and disarm DCs…'}</span></p>
+    <p><b>Effect:</b> <span class="editable" contenteditable="true" spellcheck="false" data-ctrapeffect="${ci}">${t.effect||'What happens on trigger…'}</span></p>
+    <div class="row">Damage dice: <span class="editable" contenteditable="true" spellcheck="false" data-ctrapdmg="${ci}">${t.dmg||'2d6'}</span>
+    <button class="act" data-roll="${t.dmg||'2d6'}" data-rollout="cout_${ci}" data-rolllabel="${t.name}">Roll Damage</button><span class="diceresult" id="cout_${ci}"></span></div>
+    </div>`;
+  });
+  html += `<h3>Encounter Courses (multi-stage set-pieces)</h3>
+  <p class="smallmuted">Each course tracks its own stage — click a numbered dot to jump there, or use Advance for a slow build.</p>`;
+  COURSES.forEach(c=>{
+    const stage = get('course_'+c.id, 0);
+    let dots='';
+    for(let i=1;i<=c.stages;i++) dots+=`<div class="rnd ${i<=stage?'done':''}" data-course="${c.id}" data-stage="${i}">${i}</div>`;
+    const stageTexts = [];
+    for(let i=0;i<c.stages;i++) stageTexts.push(get('course_'+c.id+'_stage_'+i, c.stageText[i]));
+    html += `<div class="card">
+    <h4 style="margin:0 0 4px;color:var(--gold)">${ed('course_'+c.id+'_name',c.name)} <span class="smallmuted">— ${ed('course_'+c.id+'_loc',c.loc)}</span></h4>
+    <p>${ed('course_'+c.id+'_desc',c.desc)}</p>
+    <div class="purge-track">${dots}</div>
+    <div class="row">
+      <button class="act" data-courseadv="${c.id}" data-max="${c.stages}">Advance Stage</button>
+      <button class="act" data-courserst="${c.id}">Reset</button>
+    </div>
+    ${stage>0?`<div class="danger">${stageTexts[stage-1]}</div>`:'<p class="smallmuted">Not started.</p>'}
+    <details><summary style="cursor:pointer;color:var(--gold);font-size:12px;">Edit every stage's text</summary>
+    ${stageTexts.map((txt,i)=>`<div class="row" style="align-items:flex-start;"><b style="min-width:60px;">Stage ${i+1}</b>${eb('course_'+c.id+'_stage_'+i,txt).replace('class="editable"','class="editable smallmuted" style="flex:1;"')}</div>`).join('')}
+    </details>
+    </div>`;
+  });
+  html += `<h3>Horror / Encounter Event Log</h3>
+  <div class="card">
+  <div class="row">
+    <input type="text" id="trapLogInput" placeholder="e.g. Trap 1 triggered — Fighter down to 40 HP" style="flex:1;">
+    <button class="act" id="trapLogAdd">Add</button>
+  </div>
+  <div class="log" id="trapLogBox">${(get('trapLog',[])).map(l=>`<div>• ${l}</div>`).join('')}</div>
+  </div>`;
+  return html;
+}
+function wireTraps(){
+  wireTensionMeter();
+  wireDiceButtons('trapLog');
+  document.querySelectorAll('[data-trapflag]').forEach(cb=>{
+    cb.onchange=()=>{ set('trap_'+cb.dataset.trapflag, cb.checked); renderAll(); };
+  });
+  const addTrapBtn=document.getElementById('addTrapBtn');
+  if(addTrapBtn) addTrapBtn.onclick=()=>{
+    const n=document.getElementById('newTrapName'), l=document.getElementById('newTrapLoc');
+    if(!n.value.trim()) return;
+    const arr=get('customTraps',[]);
+    arr.push({name:n.value.trim(), loc:l.value.trim()||'Unset', read:'', mech:'', effect:'', dmg:'2d6'});
+    set('customTraps',arr);
+    renderAll();
+  };
+  document.querySelectorAll('[data-clonetrappreset]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.clonetrappreset;
+      const t=TRAPS.find(x=>x.id===id);
+      const arr=get('customTraps',[]);
+      arr.push({
+        name:get('trap_'+id+'_name',t.name)+' (Copy)',
+        loc:get('trap_'+id+'_loc',t.loc),
+        read:get('trap_'+id+'_read',t.read),
+        mech:get('trap_'+id+'_mech',t.mech),
+        effect:get('trap_'+id+'_effect',t.effect),
+        dmg:get('trap_'+id+'_dmg',t.dmg)
+      });
+      set('customTraps',arr);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-clonetrapcustom]').forEach(b=>{
+    b.onclick=()=>{
+      const ci=parseInt(b.dataset.clonetrapcustom);
+      const arr=get('customTraps',[]);
+      const t=arr[ci];
+      arr.push({name:(t.name||'Trap')+' (Copy)', loc:t.loc||'', read:t.read||'', mech:t.mech||'', effect:t.effect||'', dmg:t.dmg||'2d6'});
+      set('customTraps',arr);
+      renderAll();
+    };
+  });
+  ['name','loc','read','mech','effect','dmg'].forEach(field=>{
+    document.querySelectorAll(`[data-ctrap${field}]`).forEach(el=>{
+      el.onblur=()=>{
+        const arr=get('customTraps',[]);
+        const ci=el.dataset['ctrap'+field];
+        arr[ci][field]=el.textContent.trim();
+        set('customTraps',arr);
+      };
+    });
+  });
+  document.querySelectorAll('[data-delctrap]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('customTraps',[]);
+      const idx=parseInt(b.dataset.delctrap);
+      if(!confirm(`Delete trap "${arr[idx]?.name||'this trap'}"? This cannot be undone.`)) return;
+      arr.splice(idx,1);
+      set('customTraps',arr);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-course]').forEach(d=>{
+    d.onclick=()=>{ set('course_'+d.dataset.course, parseInt(d.dataset.stage)); renderAll(); };
+  });
+  document.querySelectorAll('[data-courseadv]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.courseadv, max=parseInt(b.dataset.max);
+      set('course_'+id, Math.min(max, get('course_'+id,0)+1));
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-courserst]').forEach(b=>{
+    b.onclick=()=>{ set('course_'+b.dataset.courserst, 0); renderAll(); };
+  });
+  const la=document.getElementById('trapLogAdd');
+  if(la) la.onclick=()=>{
+    const inp=document.getElementById('trapLogInput');
+    if(!inp.value.trim()) return;
+    const log=get('trapLog',[]);
+    log.unshift(inp.value.trim());
+    set('trapLog', log);
+    inp.value='';
+    renderAll();
+  };
+}
+
+function renderWandering(){
+  const last = get('lastRoll', null);
+  const ENC = [
+   "■ Describe a combat encounter here. Mark combat entries with ■.",
+   "Describe a roleplay or flavor event here.",
+   "■ Describe another combat encounter here.",
+   "Describe a clue, complication, or twist here.",
+   "Describe a scene that advances the plot here.",
+   "■ Describe a harder combat encounter here.",
+   "Describe an NPC interaction here.",
+   "Describe an environmental or atmospheric event here."
+  ].map((e,i)=> get('encOverride_'+i, e));
+  let html = `<h2 class="section">Random Events</h2>
+  <p class="smallmuted">Roll 1d${ENC.length} on whatever cadence fits your scene — every 30 in-game minutes, every time the party moves between locations, etc. Edit every row to fit your adventure.</p>
+  <div class="card" style="text-align:center;">
+    <div class="die" id="d10display">${last? last : '—'}</div>
+    <button class="act" id="rollBtn" style="font-size:16px;padding:10px 22px;">ROLL d${ENC.length}</button>
+  </div>
+  <table><tr><th>#</th><th>Event</th><th>Used</th></tr>
+  ${ENC.map((e,i)=>{ const used=get('encUsed_'+i,false); return `<tr id="enc-row-${i+1}" style="${used?'opacity:0.5;':''}"><td>${i+1}</td><td class="editable" contenteditable="true" data-enc="${i}">${e}</td><td style="text-align:center;"><input type="checkbox" data-encused="${i}" ${used?'checked':''}></td></tr>`; }).join('')}
+  </table>
+  <h3>Custom Events / Table Variants</h3>
+  <p class="smallmuted">Reference list — not part of the roll above. Good for reskinning, side-quests, or a second table.</p>
+  <div class="card">
+  ${(get('customEncounters',[])).map((e,i)=>{ const used=get('customEncUsed_'+i,false); return `<div class="row" style="${used?'opacity:0.5;':''}"><input type="checkbox" data-customencused="${i}" ${used?'checked':''}><span class="editable" contenteditable="true" data-customenc="${i}" style="flex:1;">${e}</span><button class="del" data-delenc="${i}">remove</button></div>`; }).join('') || '<p class="smallmuted">None yet.</p>'}
+  <div class="addbar">
+    <input type="text" id="newEncInput" placeholder="Add a custom event…" style="flex:1;">
+    <button class="act" id="addEncBtn">Add</button>
+  </div>
+  </div>`;
+  return html;
+}
+function wireWandering(){
+  const btn=document.getElementById('rollBtn');
+  if(btn) btn.onclick=()=>{
+    const rowCount = document.querySelectorAll('[id^="enc-row-"]').length;
+    const r = Math.floor(Math.random()*rowCount)+1;
+    document.getElementById('d10display').textContent = r;
+    set('lastRoll', r);
+    document.querySelectorAll('[id^="enc-row-"]').forEach(row=>row.style.background='');
+    const row = document.getElementById('enc-row-'+r);
+    if(row) row.style.background='#3a1414';
+  };
+  document.querySelectorAll('[data-enc]').forEach(el=>{
+    el.onblur=()=>set('encOverride_'+el.dataset.enc, el.textContent.trim());
+  });
+  document.querySelectorAll('[data-encused]').forEach(cb=>{
+    cb.onchange=()=>{ set('encUsed_'+cb.dataset.encused, cb.checked); renderAll(); };
+  });
+  document.querySelectorAll('[data-customencused]').forEach(cb=>{
+    cb.onchange=()=>{ set('customEncUsed_'+cb.dataset.customencused, cb.checked); renderAll(); };
+  });
+  document.querySelectorAll('[data-customenc]').forEach(el=>{
+    el.onblur=()=>{
+      const arr=get('customEncounters',[]);
+      arr[el.dataset.customenc]=el.textContent.trim();
+      set('customEncounters',arr);
+    };
+  });
+  document.querySelectorAll('[data-delenc]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('customEncounters',[]);
+      arr.splice(parseInt(b.dataset.delenc),1);
+      set('customEncounters',arr);
+      renderAll();
+    };
+  });
+  const addBtn=document.getElementById('addEncBtn');
+  if(addBtn) addBtn.onclick=()=>{
+    const inp=document.getElementById('newEncInput');
+    if(!inp.value.trim()) return;
+    const arr=get('customEncounters',[]);
+    arr.push(inp.value.trim());
+    set('customEncounters',arr);
+    renderAll();
+  };
+}
+
+function renderPurge(){
+  const round = get('purgeRound', 0);
+  const maxRounds = get('climaxMaxRounds', 10);
+  const log = get('purgeLog', []);
+  let dots='';
+  for(let i=1;i<=maxRounds;i++){
+    dots+=`<div class="rnd ${i<=round?'done':''}" data-r="${i}">${i}</div>`;
+  }
+  return `
+  <h2 class="section">Climax Tracker</h2>
+  ${eb('climax_trigger','Describe what triggers your climax or final encounter here — a stolen item, a broken deal, a deadline reached.').replace('class="editable"','class="editable danger"')}
+  <div class="card">
+  <h3 style="margin-top:0">Round Tracker</h3>
+  <div class="row">Rounds until full catastrophe: <input type="number" id="climaxMaxRoundsInput" min="1" max="30" value="${maxRounds}" style="width:60px;"> <span class="smallmuted">— adjust the meaning and count to fit your climax.</span></div>
+  <div class="purge-track">${dots}</div>
+  <div class="row">
+    <button class="act" id="nextRound">Advance Round</button>
+    <button class="act" id="resetRound">Reset</button>
+    <span class="smallmuted">Click a dot to jump directly to that round.</span>
+  </div>
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Recurring Round Events</h3>
+  ${eb('climax_event1','Describe a recurring danger or event that happens each round — reinforcements, an environmental hazard, a countdown effect.')}
+  ${eb('climax_event2',"Describe your villain's lair actions or the big set-piece action here.")}
+  <h3>Battlefield</h3>
+  ${eb('climax_battlefield','Describe the battlefield or arena for this encounter — size, key terrain, hazards.')}
+  </div>
+  ${renderTensionMeter()}
+  <div class="card">
+  <h3 style="margin-top:0">Quick Event Log</h3>
+  <div class="row">
+    <input type="text" id="logInput" placeholder="e.g. Round 3: Villain used signature ability on the Paladin" style="flex:1;background:#0f0e1a;color:var(--text);border:1px solid var(--border);border-radius:4px;padding:6px;">
+    <button class="act" id="logAdd">Add</button>
+  </div>
+  <div class="log" id="logBox">${log.map(l=>`<div>• ${l}</div>`).join('')}</div>
+  </div>`;
+}
+function wirePurge(){
+  const maxRoundsInput=document.getElementById('climaxMaxRoundsInput');
+  if(maxRoundsInput) maxRoundsInput.onchange=()=>{
+    const v=Math.max(1,Math.min(30,parseInt(maxRoundsInput.value)||10));
+    set('climaxMaxRounds', v);
+    set('purgeRound', Math.min(get('purgeRound',0), v));
+    renderAll();
+  };
+  const nb=document.getElementById('nextRound');
+  if(nb) nb.onclick=()=>{ set('purgeRound', Math.min(get('climaxMaxRounds',10), get('purgeRound',0)+1)); renderAll(); };
+  const rb=document.getElementById('resetRound');
+  if(rb) rb.onclick=()=>{ set('purgeRound',0); renderAll(); };
+  document.querySelectorAll('.rnd').forEach(d=>{
+    d.onclick=()=>{ set('purgeRound', parseInt(d.dataset.r)); renderAll(); };
+  });
+  wireTensionMeter();
+  const la=document.getElementById('logAdd');
+  if(la) la.onclick=()=>{
+    const inp=document.getElementById('logInput');
+    if(!inp.value.trim()) return;
+    const log=get('purgeLog',[]);
+    log.unshift(inp.value.trim());
+    set('purgeLog', log);
+    inp.value='';
+    renderAll();
+  };
+}
+
+// ---- Combat Tracker (all combatants) ----
+const COMBAT_PRESETS = [
+ {name:"Minion", ac:13, hp:20},
+ {name:"Standard Enemy", ac:15, hp:50},
+ {name:"Elite Enemy", ac:16, hp:90}
+];
+function sortedCombatants(){
+  return get('combatants',[]).slice().sort((a,b)=> b.init-a.init);
+}
+function addCombatant(name, ac, maxhp, hp){
+  const arr = get('combatants',[]);
+  arr.push({id:'c'+Date.now()+Math.floor(Math.random()*1000), name, ac, maxhp, hp: hp!==undefined?hp:maxhp, init:0, notes:''});
+  set('combatants', arr);
+}
+function renderCombat(){
+  const round = get('combatRound', 1);
+  const turnId = get('combatTurnId', null);
+  const list = sortedCombatants();
+  let html = `<h2 class="section">Combat Tracker</h2>
+  <p class="smallmuted">Works for any fight. Add combatants, set initiative, hit Next Turn. Edit the Quick Add presets' name/AC/HP defaults to match your game by adding your own custom combatants below.</p>
+  <div class="card">
+  <div class="row">
+    <b style="font-size:18px;">Round ${round}</b>
+    <button class="act" id="combatNext">Next Turn</button>
+    <button class="act" id="combatRoundReset">Reset Round to 1</button>
+    <button class="act" id="combatClearAll">Clear All Combatants</button>
+  </div>
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Quick Add</h3>
+  <div class="row">
+    ${COMBAT_PRESETS.map(p=>`<button class="act" data-preset="${p.name}">+ ${p.name}</button>`).join('')}
+    <button class="act" id="addPCsBtn">+ All Party Members (from Party Tracker)</button>
+  </div>
+  <div class="addbar">
+    <input type="text" id="newCombName" placeholder="Name">
+    <input type="number" id="newCombAC" placeholder="AC" style="width:60px;">
+    <input type="number" id="newCombHP" placeholder="Max HP" style="width:70px;">
+    <button class="act" id="addCustomCombBtn">Add Custom Combatant</button>
+  </div>
+  </div>`;
+  if(!list.length){
+    html += '<p class="smallmuted">No combatants yet — quick-add above, or roll initiative and add custom ones.</p>';
+  }
+  list.forEach(c=>{
+    const pct = Math.max(0, Math.min(100, c.hp/Math.max(1,c.maxhp)*100));
+    const isTurn = c.id===turnId;
+    html += `<div class="statblock" style="margin-bottom:10px;${isTurn?'border-color:var(--redbright);box-shadow:0 0 0 1px var(--redbright);':''}">
+    <div class="row">
+      ${isTurn?'<span class="pill on">CURRENT TURN</span>':''}
+      Init <input type="number" value="${c.init}" data-combinit="${c.id}" style="width:55px;">
+      <input type="text" value="${c.name}" data-combname="${c.id}" style="flex:1;min-width:120px;font-weight:bold;">
+      AC <input type="number" value="${c.ac}" data-combac="${c.id}" style="width:55px;">
+      <button class="del" data-combremove="${c.id}">remove</button>
+    </div>
+    <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
+    <div class="row">
+      <span>${c.hp} / ${c.maxhp} HP</span>
+      Max <input type="number" value="${c.maxhp}" data-combmaxhp="${c.id}" style="width:65px;">
+      <input type="number" placeholder="amt" data-combamt="${c.id}" style="width:55px;">
+      <button class="act" data-combdmg="${c.id}">Dmg</button>
+      <button class="act" data-combheal="${c.id}">Heal</button>
+    </div>
+    <input type="text" placeholder="Conditions / notes (e.g. Grappled, Bloodied)" value="${c.notes}" data-combnotes="${c.id}" style="width:100%;">
+    </div>`;
+  });
+  return html;
+}
+function wireCombat(){
+  document.querySelectorAll('[data-preset]').forEach(b=>{
+    b.onclick=()=>{
+      const p = COMBAT_PRESETS.find(x=>x.name===b.dataset.preset);
+      if(p) addCombatant(p.name, p.ac, p.hp);
+      renderAll();
+    };
+  });
+  const addPCs=document.getElementById('addPCsBtn');
+  if(addPCs) addPCs.onclick=()=>{
+    (get('partyMembers',[])).forEach(m=>{
+      addCombatant(m.name||'PC', m.ac, m.maxhp, m.hp);
+    });
+    renderAll();
+  };
+  const addCustom=document.getElementById('addCustomCombBtn');
+  if(addCustom) addCustom.onclick=()=>{
+    const n=document.getElementById('newCombName'), a=document.getElementById('newCombAC'), h=document.getElementById('newCombHP');
+    if(!n.value.trim()) return;
+    addCombatant(n.value.trim(), parseInt(a.value)||10, parseInt(h.value)||10);
+    renderAll();
+  };
+  document.querySelectorAll('[data-combinit]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===el.dataset.combinit);
+      if(c){ c.init=parseInt(el.value)||0; set('combatants',arr); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-combname]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===el.dataset.combname);
+      if(c){ c.name=el.value; set('combatants',arr); }
+    };
+  });
+  document.querySelectorAll('[data-combac]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===el.dataset.combac);
+      if(c){ c.ac=parseInt(el.value)||0; set('combatants',arr); }
+    };
+  });
+  document.querySelectorAll('[data-combmaxhp]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===el.dataset.combmaxhp);
+      if(c){ c.maxhp=parseInt(el.value)||1; set('combatants',arr); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-combnotes]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===el.dataset.combnotes);
+      if(c){ c.notes=el.value; set('combatants',arr); }
+    };
+  });
+  document.querySelectorAll('[data-combdmg]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===b.dataset.combdmg);
+      const amtEl=document.querySelector(`[data-combamt="${b.dataset.combdmg}"]`);
+      const v=parseInt(amtEl.value)||0;
+      if(c){ c.hp=Math.max(0,c.hp-v); set('combatants',arr); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-combheal]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('combatants',[]);
+      const c=arr.find(x=>x.id===b.dataset.combheal);
+      const amtEl=document.querySelector(`[data-combamt="${b.dataset.combheal}"]`);
+      const v=parseInt(amtEl.value)||0;
+      if(c){ c.hp=Math.min(c.maxhp,c.hp+v); set('combatants',arr); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-combremove]').forEach(b=>{
+    b.onclick=()=>{
+      let arr=get('combatants',[]);
+      arr=arr.filter(x=>x.id!==b.dataset.combremove);
+      set('combatants',arr);
+      if(get('combatTurnId',null)===b.dataset.combremove) set('combatTurnId', arr.length? sortedCombatants()[0]?.id : null);
+      renderAll();
+    };
+  });
+  const nextBtn=document.getElementById('combatNext');
+  if(nextBtn) nextBtn.onclick=()=>{
+    const list=sortedCombatants();
+    if(!list.length) return;
+    const curId=get('combatTurnId',null);
+    const idx=list.findIndex(c=>c.id===curId);
+    if(idx===-1){
+      set('combatTurnId', list[0].id);
+    } else if(idx>=list.length-1){
+      set('combatTurnId', list[0].id);
+      set('combatRound', get('combatRound',1)+1);
+    } else {
+      set('combatTurnId', list[idx+1].id);
+    }
+    renderAll();
+  };
+  const rrb=document.getElementById('combatRoundReset');
+  if(rrb) rrb.onclick=()=>{ set('combatRound',1); set('combatTurnId', sortedCombatants()[0]?.id||null); renderAll(); };
+  const clearBtn=document.getElementById('combatClearAll');
+  if(clearBtn) clearBtn.onclick=()=>{
+    set('combatants',[]); set('combatRound',1); set('combatTurnId',null); renderAll();
+  };
+}
+
+// ---- Villain tracker ----
+function renderMaligno(){
+  const diff = get('villainDifficulty','standard');
+  const dcNote = diff==='easier'?'−2 to all DCs/attack bonus':(diff==='brutal'?'+2 to all DCs/attack bonus':'as written below');
+  const maxHP = get('villainMaxHP', 100);
+  const hp = get('villainHP', maxHP);
+  const specialActive = get('villainSpecialActive', false);
+  const signatureTarget = get('villainSignatureTarget','');
+  const legendary = get('legendaryUsed', 0);
+  const legres = get('legResUsed', 0);
+  const pct = Math.max(0, Math.min(100, hp/Math.max(1,maxHP)*100));
+  const bloodied = hp<=Math.round(maxHP/2);
+  let legresCircles='';
+  for(let i=1;i<=3;i++) legresCircles+=`<span class="legres ${i<=legres?'spent':''}" data-legres="${i}" title="Legendary Resistance ${i}">${i<=legres?'×':'●'}</span>`;
+  return `
+  <h2 class="section">${ed('villain_name','Your Villain')} — Live Tracker</h2>
+  <div class="card">
+  <h3 style="margin-top:0">Difficulty (flavor note only — set HP/AC directly below)</h3>
+  <div class="row">
+    <button class="act ${diff==='easier'?'sel':''}" data-diff="easier">Easier</button>
+    <button class="act ${diff==='standard'?'sel':''}" data-diff="standard">Standard</button>
+    <button class="act ${diff==='brutal'?'sel':''}" data-diff="brutal">Brutal</button>
+    <span class="smallmuted">Suggested adjustment: ${dcNote}.</span>
+  </div>
+  </div>
+  <div class="grid2">
+    <div class="statblock">
+      <h4>HP &amp; Status</h4>
+      <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
+      <div class="row">
+        <span>${hp} / ${maxHP} HP</span>
+        Max <input type="number" id="villainMaxHPInput" value="${maxHP}" style="width:70px;">
+        <input type="number" id="dmgInput" placeholder="amt">
+        <button class="act" id="dmgApply">Apply Damage</button>
+        <button class="act" id="healApply">Heal</button>
+        <button class="act" id="hpReset">Reset</button>
+      </div>
+      ${bloodied?eb('villain_bloodied','Bloodied (≤ half HP): describe any bloodied-triggered ability here.').replace('class="editable"','class="editable danger"'):''}
+      <div class="row">
+        <label><input type="checkbox" id="specialToggle" ${specialActive?'checked':''}> Special State Active
+        <span class="pill ${specialActive?'on':''}">${specialActive?'Active':'Inactive'}</span></label>
+      </div>
+      ${eb('villain_specialnote','Describe what changes when this is active (e.g. resistances change, a weak point opens, a form shifts).').replace('class="editable"','class="editable smallmuted"')}
+      <div class="row">${eb('villain_regen','Describe any regeneration or recovery mechanic here, if your villain has one.')}</div>
+    </div>
+    <div class="statblock">
+      <h4>Legendary Resistance (3/day) &amp; Signature Ability</h4>
+      <div class="row">Legendary Resistance uses: ${legresCircles} <button class="act" id="legresReset">Reset (long rest)</button></div>
+      <p class="smallmuted">Click a circle to mark it spent (auto-succeed one failed save). Standard for a solo-boss-style villain so a single lucky save doesn't end the fight.</p>
+      <div class="row">
+        <input type="text" id="signatureTargetInput" placeholder="Current target / status of signature ability" value="${signatureTarget}" style="flex:1;background:#0f0e1a;color:var(--text);border:1px solid var(--border);border-radius:4px;padding:6px;">
+      </div>
+      ${eb('villain_signaturenote',"Describe your villain's signature ability here — range, save DC, effect, recharge.").replace('class="editable"','class="editable smallmuted"')}
+      <div class="row"><button class="act" id="clearString">Release / Clear Target</button></div>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:14px;">
+    <div class="statblock">
+      <h4>Legendary Actions (3/round, regain at start of their turn)</h4>
+      <div class="row">
+        <span>Used this round: ${legendary} / 3</span>
+        <button class="act" id="legUse">Use One</button>
+        <button class="act" id="legReset">Reset (new turn)</button>
+      </div>
+      ${eb('mal_legactions',`<ul style="font-size:13px;margin:0;padding-left:20px;">
+        <li>Legendary Action 1 (1) — describe it</li>
+        <li>Legendary Action 2 (1) — describe it</li>
+        <li>Legendary Action 3 (2) — describe it</li>
+      </ul>`)}
+    </div>
+    <div class="statblock">
+      <h4>Reactions</h4>
+      ${eb('mal_reactions','Describe any reactions your villain has here.')}
+    </div>
+  </div>
+  <h3>Full Reference Stat Block</h3>
+  <details class="card"><summary style="cursor:pointer;color:var(--gold)">Expand full stat block</summary>
+  ${eb('mal_sb1',`<b>Size Type (Tag) · Alignment · CR X (XP; PB +X)</b><br>
+  STR ##(+#) DEX ##(+#) CON ##(+#) INT ##(+#) WIS ##(+#) CHA ##(+#)<br>
+  AC ## | HP ### (XdY+Z) | Speed ##ft<br>
+  Saves: ... · Skills: ...<br>
+  Immune / Resist: ...<br>
+  Condition Immunities: ...<br>
+  Senses: ... · Languages: ...<br>
+  Paste or type your villain's full 2024-format stat block here.`)}
+  </details>
+  <h3>Secondary Villains / Bosses</h3>
+  <p class="smallmuted">A lightweight HP tracker for a second boss, lieutenant, or elite ally fighting alongside your main villain — so you don't have to overwrite the tracker above.</p>
+  <div class="row"><button class="act" id="addSecondaryVillainBtn">+ Add Secondary Villain</button></div>
+  ${renderSecondaryVillains()}
+  `;
+}
+function renderSecondaryVillains(){
+  const list = get('secondaryVillains', []);
+  if(!list.length) return '<p class="smallmuted">None yet.</p>';
+  return list.map(v=>{
+    const pct = Math.max(0, Math.min(100, v.hp/Math.max(1,v.maxhp)*100));
+    return `<div class="statblock" style="margin-bottom:10px;">
+    <div class="row">
+      <input type="text" value="${v.name}" data-svname="${v.id}" style="flex:1;min-width:120px;font-weight:bold;">
+      <button class="del" data-svremove="${v.id}">remove</button>
+    </div>
+    <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
+    <div class="row">
+      <span>${v.hp} / ${v.maxhp} HP</span>
+      Max <input type="number" value="${v.maxhp}" data-svmaxhp="${v.id}" style="width:65px;">
+      <input type="number" placeholder="amt" data-svamt="${v.id}" style="width:55px;">
+      <button class="act" data-svdmg="${v.id}">Dmg</button>
+      <button class="act" data-svheal="${v.id}">Heal</button>
+    </div>
+    </div>`;
+  }).join('');
+}
+function wireMaligno(){
+  const maxHPInput=document.getElementById('villainMaxHPInput');
+  const maxHP = get('villainMaxHP', 100);
+  document.querySelectorAll('[data-diff]').forEach(b=>{
+    b.onclick=()=>{ set('villainDifficulty', b.dataset.diff); renderAll(); };
+  });
+  if(maxHPInput) maxHPInput.onchange=()=>{
+    const v=Math.max(1,parseInt(maxHPInput.value)||1);
+    set('villainMaxHP', v);
+    set('villainHP', Math.min(get('villainHP',maxHP), v));
+    renderAll();
+  };
+  const dmgBtn=document.getElementById('dmgApply');
+  if(dmgBtn) dmgBtn.onclick=()=>{
+    const v=parseInt(document.getElementById('dmgInput').value)||0;
+    set('villainHP', Math.max(0, get('villainHP',maxHP)-v));
+    renderAll();
+  };
+  const healBtn=document.getElementById('healApply');
+  if(healBtn) healBtn.onclick=()=>{
+    const v=parseInt(document.getElementById('dmgInput').value)||0;
+    set('villainHP', Math.min(maxHP, get('villainHP',maxHP)+v));
+    renderAll();
+  };
+  const resetBtn=document.getElementById('hpReset');
+  if(resetBtn) resetBtn.onclick=()=>{ set('villainHP',maxHP); renderAll(); };
+  const special=document.getElementById('specialToggle');
+  if(special) special.onchange=()=>{ set('villainSpecialActive', special.checked); renderAll(); };
+  const sti=document.getElementById('signatureTargetInput');
+  if(sti) sti.onchange=()=>{ set('villainSignatureTarget', sti.value); };
+  const clr=document.getElementById('clearString');
+  if(clr) clr.onclick=()=>{ set('villainSignatureTarget',''); renderAll(); };
+  const lu=document.getElementById('legUse');
+  if(lu) lu.onclick=()=>{ set('legendaryUsed', Math.min(3, get('legendaryUsed',0)+1)); renderAll(); };
+  const lr=document.getElementById('legReset');
+  if(lr) lr.onclick=()=>{ set('legendaryUsed',0); renderAll(); };
+  document.querySelectorAll('[data-legres]').forEach(el=>{
+    el.onclick=()=>{
+      const i=parseInt(el.dataset.legres);
+      const cur=get('legResUsed',0);
+      set('legResUsed', cur>=i? i-1 : i);
+      renderAll();
+    };
+  });
+  const lrr=document.getElementById('legresReset');
+  if(lrr) lrr.onclick=()=>{ set('legResUsed',0); renderAll(); };
+  const addSvBtn=document.getElementById('addSecondaryVillainBtn');
+  if(addSvBtn) addSvBtn.onclick=()=>{
+    const list=get('secondaryVillains',[]);
+    list.push({id:'sv'+Date.now()+Math.floor(Math.random()*1000), name:'', maxhp:50, hp:50});
+    set('secondaryVillains',list);
+    renderAll();
+  };
+  document.querySelectorAll('[data-svname]').forEach(el=>{
+    el.onchange=()=>{
+      const list=get('secondaryVillains',[]);
+      const v=list.find(x=>x.id===el.dataset.svname);
+      if(v){ v.name=el.value; set('secondaryVillains',list); }
+    };
+  });
+  document.querySelectorAll('[data-svmaxhp]').forEach(el=>{
+    el.onchange=()=>{
+      const list=get('secondaryVillains',[]);
+      const v=list.find(x=>x.id===el.dataset.svmaxhp);
+      if(v){ v.maxhp=parseInt(el.value)||1; v.hp=Math.min(v.hp,v.maxhp); set('secondaryVillains',list); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-svdmg]').forEach(b=>{
+    b.onclick=()=>{
+      const list=get('secondaryVillains',[]);
+      const v=list.find(x=>x.id===b.dataset.svdmg);
+      const amtEl=document.querySelector(`[data-svamt="${b.dataset.svdmg}"]`);
+      const amt=parseInt(amtEl.value)||0;
+      if(v){ v.hp=Math.max(0,v.hp-amt); set('secondaryVillains',list); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-svheal]').forEach(b=>{
+    b.onclick=()=>{
+      const list=get('secondaryVillains',[]);
+      const v=list.find(x=>x.id===b.dataset.svheal);
+      const amtEl=document.querySelector(`[data-svamt="${b.dataset.svheal}"]`);
+      const amt=parseInt(amtEl.value)||0;
+      if(v){ v.hp=Math.min(v.maxhp,v.hp+amt); set('secondaryVillains',list); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-svremove]').forEach(b=>{
+    b.onclick=()=>{
+      let list=get('secondaryVillains',[]);
+      const v=list.find(x=>x.id===b.dataset.svremove);
+      if(!confirm(`Remove "${v?.name||'this villain'}"? This cannot be undone.`)) return;
+      list=list.filter(x=>x.id!==b.dataset.svremove);
+      set('secondaryVillains',list);
+      renderAll();
+    };
+  });
+}
+
+const MONSTER_BLOCKS = [
+ {key:'sb_example', title:"Example Monster — CR 1 (edit or delete me)",
+  body:`STR12(+1) DEX14(+2) CON12(+1) INT8(-1) WIS10(+0) CHA8(-1) · AC13 · HP22(4d8+4) · Speed 30ft · PB+2<br>
+  Multiattack: 2 Slam (Melee +3, 5 [1d6+2] bludgeoning)<br>
+  This block shows the expected format — stats, AC/HP/Speed, then abilities and attacks. Replace it with your own monster, or delete it and add your own below.`}
+];
+function renderStatblocks(){
+  let html = `<h2 class="section">Monster &amp; NPC Stat Blocks</h2>
+  <p class="smallmuted">Every title and body below is editable — retype numbers, rename creatures, or reskin entirely. One example block is included to show the expected format.</p>`;
+  MONSTER_BLOCKS.forEach(m=>{
+    html += `<div class="statblock"><h4>${ed(m.key+'_title',m.title)} <button class="act" data-clonemonpreset="${m.key}" style="font-size:11px;">Clone</button></h4>
+    ${eb(m.key+'_body',m.body).replace('class="editable"','class="editable" style="margin:0;"')}</div>`;
+  });
+  html += `<h2 class="section">Key NPCs</h2>
+  <div class="card">
+  ${eb('sb_npcs','List your important NPCs here — name, role, and any mechanics.')}
+  </div>
+  <div class="card">
+  <div class="addbar">
+    <input type="text" id="newMonsterTitle" placeholder="New stat block title (e.g. Custom Monster — CR 5)" style="flex:1;">
+    <button class="act" id="addMonsterBtn">Add Custom Stat Block</button>
+  </div>
+  </div>`;
+  const custom = get('customMonsters', []);
+  if(custom.length){
+    html += `<h3>Custom Stat Blocks</h3>`;
+    custom.forEach((m,ci)=>{
+      html += `<div class="statblock">
+      <h4><span class="editable" contenteditable="true" spellcheck="false" data-custommontitle="${ci}">${m.title}</span>
+      <button class="act" data-clonemoncustom="${ci}" style="font-size:11px;">Clone</button>
+      <button class="del" data-delmonster="${ci}">delete</button></h4>
+      <div class="editable" contenteditable="true" spellcheck="false" data-custommonbody="${ci}">${m.body}</div>
+      </div>`;
+    });
+  }
+  return html;
+}
+function wireStatblocks(){
+  const addBtn=document.getElementById('addMonsterBtn');
+  if(addBtn) addBtn.onclick=()=>{
+    const inp=document.getElementById('newMonsterTitle');
+    if(!inp.value.trim()) return;
+    const custom=get('customMonsters',[]);
+    custom.push({title:inp.value.trim(), body:'Click to fill in stats…'});
+    set('customMonsters',custom);
+    renderAll();
+  };
+  document.querySelectorAll('[data-clonemonpreset]').forEach(b=>{
+    b.onclick=()=>{
+      const key=b.dataset.clonemonpreset;
+      const m=MONSTER_BLOCKS.find(x=>x.key===key);
+      const custom=get('customMonsters',[]);
+      custom.push({title:get(key+'_title',m.title)+' (Copy)', body:get(key+'_body',m.body)});
+      set('customMonsters',custom);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-clonemoncustom]').forEach(b=>{
+    b.onclick=()=>{
+      const ci=parseInt(b.dataset.clonemoncustom);
+      const custom=get('customMonsters',[]);
+      const m=custom[ci];
+      custom.push({title:(m.title||'Monster')+' (Copy)', body:m.body||''});
+      set('customMonsters',custom);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-custommontitle]').forEach(el=>{
+    el.onblur=()=>{
+      const custom=get('customMonsters',[]);
+      custom[el.dataset.custommontitle].title=el.textContent.trim();
+      set('customMonsters',custom);
+    };
+  });
+  document.querySelectorAll('[data-custommonbody]').forEach(el=>{
+    el.onblur=()=>{
+      const custom=get('customMonsters',[]);
+      custom[el.dataset.custommonbody].body=el.innerHTML.trim();
+      set('customMonsters',custom);
+    };
+  });
+  document.querySelectorAll('[data-delmonster]').forEach(b=>{
+    b.onclick=()=>{
+      const custom=get('customMonsters',[]);
+      const idx=parseInt(b.dataset.delmonster);
+      if(!confirm(`Delete stat block "${custom[idx]?.title||'this monster'}"? This cannot be undone.`)) return;
+      custom.splice(idx,1);
+      set('customMonsters',custom);
+      renderAll();
+    };
+  });
+}
+
+// ---- Party Tracker (dynamic roster — add/remove any number of members) ----
+function renderParty(){
+  const members = get('partyMembers', []);
+  let html = `<h2 class="section">Party Tracker</h2>
+  <p class="smallmuted">Add one card per character — any party size. Track HP, AC, Exhaustion, and Frightened status live during play.</p>
+  <div class="row"><button class="act" id="addPartyMemberBtn" style="font-size:14px;padding:8px 16px;">+ Add Party Member</button></div>`;
+  if(!members.length){
+    html += '<p class="smallmuted">No party members yet — click "Add Party Member" to start.</p>';
+  }
+  html += '<div class="grid3">';
+  members.forEach(m=>{
+    const pct = Math.max(0, Math.min(100, m.hp/Math.max(1,m.maxhp)*100));
+    html += `<div class="statblock">
+    <div class="row"><input type="text" placeholder="Name" value="${m.name}" data-pmname="${m.id}" style="flex:1;font-weight:bold;"><button class="del" data-pmremove="${m.id}">remove</button></div>
+    <input type="text" placeholder="Class / build" value="${m.cls}" data-pmclass="${m.id}" style="width:100%;margin-bottom:6px;">
+    <div class="row">AC <input type="number" value="${m.ac}" data-pmac="${m.id}" style="width:50px;"></div>
+    <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
+    <div class="row">
+      <span>${m.hp} / ${m.maxhp} HP</span>
+    </div>
+    <div class="row">
+      Max <input type="number" value="${m.maxhp}" data-pmmaxhp="${m.id}" style="width:60px;">
+      <input type="number" placeholder="amt" data-pmamt="${m.id}" style="width:55px;">
+      <button class="act" data-pmdmg="${m.id}">Dmg</button>
+      <button class="act" data-pmheal="${m.id}">Heal</button>
+    </div>
+    <div class="row">
+      Exhaustion (2024: −1/lvl to d20 Tests, speed −5ft/lvl)
+      <input type="number" min="0" max="6" value="${m.exh}" data-pmexh="${m.id}" style="width:50px;">
+    </div>
+    <div class="row"><label><input type="checkbox" data-pmfrt="${m.id}" ${m.frt?'checked':''}> Frightened</label></div>
+    </div>`;
+  });
+  html += '</div>';
+  return html;
+}
+function wireParty(){
+  const addBtn=document.getElementById('addPartyMemberBtn');
+  if(addBtn) addBtn.onclick=()=>{
+    const arr=get('partyMembers',[]);
+    arr.push({id:'p'+Date.now()+Math.floor(Math.random()*1000), name:'', cls:'', ac:15, maxhp:20, hp:20, exh:0, frt:false});
+    set('partyMembers',arr);
+    renderAll();
+  };
+  document.querySelectorAll('[data-pmremove]').forEach(b=>{
+    b.onclick=()=>{
+      let arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===b.dataset.pmremove);
+      if(!confirm(`Remove party member "${m?.name||'this character'}"? This cannot be undone.`)) return;
+      arr=arr.filter(x=>x.id!==b.dataset.pmremove);
+      set('partyMembers',arr);
+      renderAll();
+    };
+  });
+  document.querySelectorAll('[data-pmname]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===el.dataset.pmname);
+      if(m){ m.name=el.value; set('partyMembers',arr); }
+    };
+  });
+  document.querySelectorAll('[data-pmclass]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===el.dataset.pmclass);
+      if(m){ m.cls=el.value; set('partyMembers',arr); }
+    };
+  });
+  document.querySelectorAll('[data-pmac]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===el.dataset.pmac);
+      if(m){ m.ac=parseInt(el.value)||0; set('partyMembers',arr); }
+    };
+  });
+  document.querySelectorAll('[data-pmmaxhp]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===el.dataset.pmmaxhp);
+      if(m){ m.maxhp=parseInt(el.value)||1; set('partyMembers',arr); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-pmexh]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===el.dataset.pmexh);
+      if(m){ m.exh=Math.max(0,Math.min(6,parseInt(el.value)||0)); set('partyMembers',arr); }
+    };
+  });
+  document.querySelectorAll('[data-pmfrt]').forEach(el=>{
+    el.onchange=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===el.dataset.pmfrt);
+      if(m){ m.frt=el.checked; set('partyMembers',arr); }
+    };
+  });
+  document.querySelectorAll('[data-pmdmg]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===b.dataset.pmdmg);
+      const amtEl=document.querySelector(`[data-pmamt="${b.dataset.pmdmg}"]`);
+      const v=parseInt(amtEl.value)||0;
+      if(m){ m.hp=Math.max(0,m.hp-v); set('partyMembers',arr); renderAll(); }
+    };
+  });
+  document.querySelectorAll('[data-pmheal]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('partyMembers',[]);
+      const m=arr.find(x=>x.id===b.dataset.pmheal);
+      const amtEl=document.querySelector(`[data-pmamt="${b.dataset.pmheal}"]`);
+      const v=parseInt(amtEl.value)||0;
+      if(m){ m.hp=Math.min(m.maxhp,m.hp+v); set('partyMembers',arr); renderAll(); }
+    };
+  });
+}
+
+// ---- NPC Relationships ----
+const NPC_STATUSES = [
+ {key:'neutral', label:'Neutral', desc:'No strong lean either way yet.'},
+ {key:'ally', label:'Ally', desc:'Sides with the party — will vouch for them, share what they know, maybe help if pushed.'},
+ {key:'hostile', label:'Hostile', desc:'Works against the party, or has sold them out.'}
+];
+function getNPCRoster(){
+  const stored = get('npcRosterList', null);
+  if(stored) return stored;
+  return [0,1,2].map(i=>({id:'npc'+i, name:'NPC '+(i+1), status:'neutral'}));
+}
+function renderNPCTrust(){
+  const succ = get('trustSuccesses',0);
+  const fail = get('trustFails',0);
+  let succDots=''; for(let i=1;i<=3;i++) succDots+=`<div class="rnd ${i<=succ?'done':''}" data-trustsucc="${i}">${i}</div>`;
+  let failDots=''; for(let i=1;i<=3;i++) failDots+=`<div class="rnd fail ${i<=fail?'done':''}" data-trustfail="${i}">${i}</div>`;
+  let outcomeHtml;
+  if(succ>=3){
+    outcomeHtml = eb('trust_outcome_success','Trust earned — describe what this unlocks.').replace('class="editable"','class="editable readaloud"');
+  } else if(fail>=3){
+    outcomeHtml = eb('trust_outcome_fail','Trust broken — describe the consequence.').replace('class="editable"','class="editable danger"');
+  } else {
+    outcomeHtml = `<p class="smallmuted">In progress — ${succ} success${succ!==1?'es':''}, ${fail} fail${fail!==1?'s':''}. Needs 3 successes before 3 fails.</p>`;
+  }
+  const roster = getNPCRoster();
+  const npcRows = roster.map(n=>`<div class="row">
+      <span class="editable" contenteditable="true" spellcheck="false" data-npcfield="name" data-npcid="${n.id}" style="min-width:130px;font-weight:bold;">${n.name}</span>
+      ${NPC_STATUSES.map(s=>`<button class="act ${n.status===s.key?'sel':''}" data-npcstatusbtn="${n.id}" data-statuskey="${s.key}">${s.label}</button>`).join('')}
+      <button class="del" data-delnpc="${n.id}">remove</button>
+    </div>`).join('');
+  const allyCount = roster.filter(n=>n.status==='ally').length;
+  const hostileCount = roster.filter(n=>n.status==='hostile').length;
+  return `
+  <h2 class="section">NPC Relationships</h2>
+  <p class="smallmuted">A reusable trust/relationship tracker for any two-sided NPC challenge, plus a roster of any size for tracking where key NPCs stand. Every label is editable.</p>
+  <div class="card">
+  <h3 style="margin-top:0">${ed('trust_title','NPC Name — Trust Challenge')}</h3>
+  <p class="smallmuted">${ed('trust_desc','DC15 group Persuasion/Insight skill challenge. Click a dot to set the count directly.')}</p>
+  <div class="row"><b style="min-width:90px;">Successes</b><div class="purge-track">${succDots}</div></div>
+  <div class="row"><b style="min-width:90px;">Fails</b><div class="purge-track">${failDots}</div></div>
+  ${outcomeHtml}
+  <div class="row"><button class="act" id="trustReset">Reset Challenge</button></div>
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">${ed('npcs_title','Tracked NPCs')}</h3>
+  ${eb('npcNote','Add context about these NPCs here — what they want, what they know, what it takes to win them over.').replace('class="editable"','class="editable smallmuted"')}
+  <div class="smallmuted" style="margin:8px 0;">Currently: ${allyCount} ally · ${hostileCount} hostile · ${roster.length-allyCount-hostileCount} neutral</div>
+  ${npcRows}
+  <div class="row"><button class="act" id="addNpcBtn">+ Add NPC</button></div>
+  </div>
+  `;
+}
+function wireNPCTrust(){
+  document.querySelectorAll('[data-trustsucc]').forEach(d=>{
+    d.onclick=()=>{ set('trustSuccesses', parseInt(d.dataset.trustsucc)); renderAll(); };
+  });
+  document.querySelectorAll('[data-trustfail]').forEach(d=>{
+    d.onclick=()=>{ set('trustFails', parseInt(d.dataset.trustfail)); renderAll(); };
+  });
+  const trustReset=document.getElementById('trustReset');
+  if(trustReset) trustReset.onclick=()=>{ set('trustSuccesses',0); set('trustFails',0); renderAll(); };
+  document.querySelectorAll('[data-npcfield]').forEach(el=>{
+    el.onblur=()=>{
+      const roster=getNPCRoster();
+      const n=roster.find(x=>x.id===el.dataset.npcid);
+      if(n){ n.name=el.textContent.trim(); set('npcRosterList',roster); }
+    };
+  });
+  document.querySelectorAll('[data-npcstatusbtn]').forEach(b=>{
+    b.onclick=()=>{
+      const roster=getNPCRoster();
+      const n=roster.find(x=>x.id===b.dataset.npcstatusbtn);
+      if(n){ n.status=b.dataset.statuskey; set('npcRosterList',roster); renderAll(); }
+    };
+  });
+  const addNpcBtn=document.getElementById('addNpcBtn');
+  if(addNpcBtn) addNpcBtn.onclick=()=>{
+    const roster=getNPCRoster();
+    roster.push({id:'npc'+Date.now()+Math.floor(Math.random()*1000), name:'New NPC', status:'neutral'});
+    set('npcRosterList',roster);
+    renderAll();
+  };
+  document.querySelectorAll('[data-delnpc]').forEach(b=>{
+    b.onclick=()=>{
+      let roster=getNPCRoster();
+      const n=roster.find(x=>x.id===b.dataset.delnpc);
+      if(!confirm(`Remove "${n?.name||'this NPC'}" from the tracker? This cannot be undone.`)) return;
+      roster=roster.filter(x=>x.id!==b.dataset.delnpc);
+      set('npcRosterList',roster);
+      renderAll();
+    };
+  });
+}
+
+// ---- Session Recap Generator ----
+function buildRecapSections(){
+  const sections = [];
+  const locLines = [];
+  LOCATIONS.forEach(loc=>{
+    const checked = get('loc_'+loc.id, {});
+    const overrides = get('loc_'+loc.id+'_txt', {});
+    const done = loc.items.map((label,i)=> checked[i+'']? (overrides[i+'']!==undefined?overrides[i+'']:label) : null).filter(Boolean);
+    if(done.length){
+      const name = get('locName_'+loc.id, loc.name);
+      locLines.push(`<b>${name}</b> (${done.length}/${loc.items.length}): ${done.join('; ')}`);
+    }
+  });
+  (get('customLocations',[])).forEach(loc=>{
+    const done=(loc.items||[]).filter((t,i)=> loc.checked && loc.checked[i]);
+    if(done.length) locLines.push(`<b>${loc.name}</b> (${done.length}/${(loc.items||[]).length}): ${done.join('; ')}`);
+  });
+  if(locLines.length) sections.push({title:'Locations Progress', lines:locLines});
+  const assign = get('goalAssign', {});
+  const goalLines = getGoalsList().map(a=> assign[a.id] ? `${assign[a.id]} — ${a.n}` : null).filter(Boolean);
+  if(goalLines.length) sections.push({title:'Goals Assigned', lines:goalLines});
+  const succ=get('trustSuccesses',0), fail=get('trustFails',0);
+  if(succ>0||fail>0){
+    let outcome = succ>=3?'Resolved — trust earned.':(fail>=3?'Resolved — trust broken.':'Still in progress.');
+    sections.push({title:get('trust_title','NPC Trust Challenge'), lines:[`${succ} success(es), ${fail} fail(s). ${outcome}`]});
+  }
+  const npcLines = getNPCRoster().filter(n=>n.status!=='neutral').map(n=>`${n.name}: ${n.status==='ally'?'Ally':'Hostile'}`);
+  if(npcLines.length) sections.push({title:'NPC Relationships', lines:npcLines});
+  const trapLines=[];
+  TRAPS.forEach(t=>{
+    const trig=get('trap_'+t.id+'_trig',false), disarm=get('trap_'+t.id+'_disarm',false);
+    if(trig||disarm) trapLines.push(`${get('trap_'+t.id+'_name',t.name)}: ${disarm?'Disarmed/Bypassed':''}${trig&&disarm?', ':''}${trig?'Triggered':''}`);
+  });
+  COURSES.forEach(c=>{
+    const stage=get('course_'+c.id,0);
+    if(stage>0) trapLines.push(`${get('course_'+c.id+'_name',c.name)}: reached Stage ${stage}/${c.stages}`);
+  });
+  if(trapLines.length) sections.push({title:'Traps & Encounter Courses', lines:trapLines});
+  const tensionLvl=get('tensionLevel',0);
+  if(tensionLvl>0) sections.push({title:'Tension', lines:[`Currently at "${TENSION[tensionLvl].name}" (${TENSION[tensionLvl].die})`]});
+  const pRound=get('purgeRound',0), pLog=get('purgeLog',[]);
+  if(pRound>0 || pLog.length){
+    const lines=[];
+    if(pRound>0) lines.push(`Currently on round ${pRound}/${get('climaxMaxRounds',10)}.`);
+    pLog.slice(0,3).forEach(l=>lines.push(l));
+    sections.push({title:'Climax', lines});
+  }
+  const malMax=get('villainMaxHP',100);
+  const malHP=get('villainHP', malMax);
+  if(malHP < malMax){
+    sections.push({title:get('villain_name','Villain'), lines:[`${malHP}/${malMax} HP.${get('villainSignatureTarget','')?(' Signature ability currently on: '+get('villainSignatureTarget','')+'.'):''}`]});
+  }
+  const secondaryVillains = (get('secondaryVillains',[])).filter(v=>v.hp<v.maxhp);
+  if(secondaryVillains.length) sections.push({title:'Secondary Villains', lines: secondaryVillains.map(v=>`${v.name||'Unnamed'}: ${v.hp}/${v.maxhp} HP`)});
+  const combatants=get('combatants',[]);
+  if(combatants.length) sections.push({title:'Combat Left Mid-Fight', lines:[`Round ${get('combatRound',1)}: `+combatants.map(c=>`${c.name} (${c.hp}/${c.maxhp} HP)`).join(', ')]});
+  const partyLines=[];
+  (get('partyMembers',[])).forEach(m=>{
+    if(m.name) partyLines.push(`${m.name}: ${m.hp}/${m.maxhp} HP${m.exh>0?`, Exhaustion ${m.exh}`:''}`);
+  });
+  if(partyLines.length) sections.push({title:'Party Status', lines:partyLines});
+  return sections;
+}
+function renderRecap(){
+  const sections = buildRecapSections();
+  const log = get('sessionRecaps', []);
+  let html = `<h2 class="section">Session Recap Generator</h2>
+  <p class="smallmuted">Auto-compiled from everything checked, tracked, and logged elsewhere in this document — nothing to fill in by hand. Save one at the end of each session to build a running "story so far."</p>
+  <div class="card">
+  <h3 style="margin-top:0">Where We Left Off</h3>`;
+  if(!sections.length){
+    html += '<p class="smallmuted">Nothing tracked yet — as you check off objectives, trigger traps, advance the climax, etc., this recap fills itself in automatically.</p>';
+  } else {
+    sections.forEach(s=>{
+      html += `<h4 style="margin:12px 0 4px;color:#d6a8a0;">${s.title}</h4><ul style="margin:0;font-size:14px;">${s.lines.map(l=>`<li>${l}</li>`).join('')}</ul>`;
+    });
+  }
+  html += `</div>
+  <div class="card">
+  <h3 style="margin-top:0">Opening Narration (optional, hand-written)</h3>
+  <p class="smallmuted">Write a short in-character "previously on..." to read aloud at the top of next session. This does not auto-update — it's yours to edit.</p>
+  ${eb('recapNarration','Click to write your opening narration for next session…')}
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Save to Session Log</h3>
+  <div class="row">
+    <input type="text" id="recapLabel" placeholder="Session label (e.g. Session 3)" value="Session ${log.length+1}" style="flex:1;">
+    <button class="act" id="saveRecapBtn">Save Today's Recap</button>
+  </div>
+  </div>`;
+  if(log.length){
+    html += `<h3>Session Log (${log.length})</h3>`;
+    log.slice().reverse().forEach((entry,ri)=>{
+      const i = log.length-1-ri;
+      html += `<div class="card">
+      <div class="row"><b>${entry.label}</b><span class="smallmuted">${entry.date}</span><button class="del" data-delrecap="${i}">delete</button></div>
+      ${entry.sections.map(s=>`<div><b style="color:#d6a8a0;">${s.title}:</b> ${s.lines.join('; ')}</div>`).join('')}
+      ${entry.narration?`<div class="readaloud" style="margin-top:8px;">${entry.narration}</div>`:''}
+      </div>`;
+    });
+  }
+  return html;
+}
+function wireRecap(){
+  const saveBtn=document.getElementById('saveRecapBtn');
+  if(saveBtn) saveBtn.onclick=()=>{
+    const label=document.getElementById('recapLabel').value.trim()||('Session '+(get('sessionRecaps',[]).length+1));
+    const sections=buildRecapSections();
+    const narration=get('recapNarration','');
+    const log=get('sessionRecaps',[]);
+    log.push({label, date:new Date().toLocaleDateString(), sections, narration: narration==='Click to write your opening narration for next session…'?'':narration});
+    set('sessionRecaps', log);
+    renderAll();
+  };
+  document.querySelectorAll('[data-delrecap]').forEach(b=>{
+    b.onclick=()=>{
+      const log=get('sessionRecaps',[]);
+      const idx=parseInt(b.dataset.delrecap);
+      if(!confirm(`Delete "${log[idx]?.label||'this session recap'}" from the log? This cannot be undone.`)) return;
+      log.splice(idx,1);
+      set('sessionRecaps',log);
+      renderAll();
+    };
+  });
+}
+
+const CUSTOM_TABLE = [
+ ["ct0","Example trigger 1","Example result 1"],
+ ["ct1","Example trigger 2","Example result 2"]
+];
+function renderNotes(){
+  const notes = get('freeNotes','');
+  return `
+  <h2 class="section">DM Notes</h2>
+  <p class="smallmuted">Every tip, table cell, and ending below is editable in place — this whole tab is meant to be rewritten to match your table.</p>
+  <div class="card">
+  ${eb('note_tip1','Add your first DM tip here — e.g. how to introduce the villain.')}
+  ${eb('note_tip2',"Add another tip — e.g. how to use your villain's signature ability for maximum drama.")}
+  ${eb('note_tip3','Add a third tip — e.g. pacing advice using the Tension Meter (Traps & Encounters tab).')}
+  </div>
+  <h3>Custom Reference Table</h3>
+  <p class="smallmuted">A generic two-column table — reuse it for curses, faction reputation effects, boons, whatever your campaign needs.</p>
+  <div class="card"><table>
+  <tr><th>Trigger</th><th>Result</th></tr>
+  ${CUSTOM_TABLE.map(([key,trig,res])=>`<tr><td>${ed(key+'_t',trig)}</td><td>${ed(key+'_g',res)}</td></tr>`).join('')}
+  </table>
+  <div class="addbar">
+    <input type="text" id="newGiftTrans" placeholder="Trigger" style="flex:1;">
+    <input type="text" id="newGiftGift" placeholder="Result" style="flex:1;">
+    <button class="act" id="addGiftBtn">Add Row</button>
+  </div>
+  ${(get('customGifts',[])).map((g,i)=>`<div class="row"><span class="editable" contenteditable="true" spellcheck="false" data-customgifttrans="${i}" style="flex:1;">${g.trans}</span><span class="editable" contenteditable="true" spellcheck="false" data-customgiftgift="${i}" style="flex:1;">${g.gift}</span><button class="del" data-delgift="${i}">remove</button></div>`).join('')}
+  </div>
+  <h3>Possible Endings</h3>
+  <div class="card">
+  ${eb('note_endbest','<b>Best case:</b> describe the ideal outcome.')}
+  ${eb('note_endlikely','<b>Likely case:</b> describe the realistic outcome.')}
+  ${eb('note_enddark','<b>Worst case:</b> describe the darkest outcome.')}
+  </div>
+  <h3>Free Session Notes</h3>
+  <textarea class="notes" id="freeNotesArea">${notes}</textarea>
+  `;
+}
+const debouncedSaveNotes = debounce((val)=>set('freeNotes', val), 400);
+function wireNotes(){
+  const ta=document.getElementById('freeNotesArea');
+  if(ta) ta.oninput=()=>{ debouncedSaveNotes(ta.value); };
+  const addGiftBtn=document.getElementById('addGiftBtn');
+  if(addGiftBtn) addGiftBtn.onclick=()=>{
+    const t=document.getElementById('newGiftTrans'), g=document.getElementById('newGiftGift');
+    if(!t.value.trim()||!g.value.trim()) return;
+    const arr=get('customGifts',[]);
+    arr.push({trans:t.value.trim(), gift:g.value.trim()});
+    set('customGifts',arr);
+    renderAll();
+  };
+  document.querySelectorAll('[data-customgifttrans]').forEach(el=>{
+    el.onblur=()=>{
+      const arr=get('customGifts',[]);
+      arr[el.dataset.customgifttrans].trans=el.textContent.trim();
+      set('customGifts',arr);
+    };
+  });
+  document.querySelectorAll('[data-customgiftgift]').forEach(el=>{
+    el.onblur=()=>{
+      const arr=get('customGifts',[]);
+      arr[el.dataset.customgiftgift].gift=el.textContent.trim();
+      set('customGifts',arr);
+    };
+  });
+  document.querySelectorAll('[data-delgift]').forEach(b=>{
+    b.onclick=()=>{
+      const arr=get('customGifts',[]);
+      const idx=parseInt(b.dataset.delgift);
+      if(!confirm(`Delete row "${arr[idx]?.trans||'this row'}"? This cannot be undone.`)) return;
+      arr.splice(idx,1);
+      set('customGifts',arr);
+      renderAll();
+    };
+  });
+}
+
+// ---- Backup & Setup ----
+let importFlash = '';
+function doExportBackup(){
+  const payload = { schemaVersion: SCHEMA_VERSION, exportedAt: new Date().toISOString(), state: state };
+  const dataStr = JSON.stringify(payload, null, 2);
+  const blob = new Blob([dataStr], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const titleSlug = (get('sessionTitle','dm_screen')||'dm_screen').replace(/[^a-z0-9]+/gi,'_').toLowerCase();
+  const dateSlug = new Date().toISOString().slice(0,10);
+  a.download = `${titleSlug}_backup_${dateSlug}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function renderBackup(){
+  const flash = importFlash;
+  importFlash = '';
+  const savedKeys = Object.keys(state).length;
+  return `
+  <h2 class="section">Backup &amp; Setup</h2>
+  <p class="smallmuted">Template version ${TEMPLATE_VERSION} (data schema v${SCHEMA_VERSION}).</p>
+  <div class="card">
+  <h3 style="margin-top:0">Legal &amp; Attribution</h3>
+  <p class="smallmuted">This tool is unofficial fan-made software and is not affiliated with, endorsed, or sponsored by Wizards of the Coast. It uses only generic, non-trademarked game mechanics (conditions, ability scores, saving throws, CR notation, etc.) — no proprietary settings, named monsters, or copyrighted adventure text.</p>
+  <p class="smallmuted">This work includes material from the System Reference Document 5.2 ("SRD 5.2") by Wizards of the Coast LLC, available at <a href="https://www.dndbeyond.com/srd" target="_blank" rel="noopener" style="color:var(--gold);">dndbeyond.com/srd</a>. The SRD 5.2 is licensed under the Creative Commons Attribution 4.0 International License, available at <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank" rel="noopener" style="color:var(--gold);">creativecommons.org/licenses/by/4.0/legalcode</a>.</p>
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Autosave</h3>
+  <p>Every edit on every tab — checkboxes, HP, notes, dice rolls, everything — saves automatically to this browser's local storage as you make it. Nothing to click, no "Save" button needed. Closing the tab, reloading, or losing power will not lose progress, <b>as long as you keep using this same file in this same browser</b> (clearing browser data, using a different browser, or opening a different copy of this file will not carry it over).</p>
+  <p class="smallmuted">Currently tracking ${savedKeys} saved field${savedKeys!==1?'s':''} in this browser's storage.</p>
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Download a Backup</h3>
+  <p class="smallmuted">Exports everything — every edit, every tracker, the whole campaign state — as a single .json file. Do this before clearing your browser, switching devices, or handing the campaign off to a co-DM.</p>
+  <button class="act" id="exportBtn" style="font-size:14px;padding:8px 16px;">Download Backup (.json)</button>
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Restore from Backup</h3>
+  <p class="smallmuted">Loads a previously downloaded .json backup, replacing everything currently in this browser with what's in the file.</p>
+  <div class="row">
+    <input type="file" id="importFile" accept="application/json,.json">
+    <button class="act" id="importBtn">Restore from Backup</button>
+  </div>
+  ${flash?`<p class="smallmuted">${flash}</p>`:''}
+  </div>
+  <div class="card">
+  <h3 style="margin-top:0">Start a Fresh Campaign</h3>
+  <p class="smallmuted">This is how anyone else picks up this same file and sets it up for their own table: wipes every checkbox, HP change, note, and log from this browser and reverts every tab back to its original blank template — nothing deleted from the file itself, only from this browser's saved progress. <b>Download a backup first if you want to keep what's here.</b></p>
+  <button class="act" id="resetAllBtn" style="border-color:var(--redbright);color:#f3c8c8;">Reset Everything to Blank</button>
+  </div>
+  `;
+}
+function wireBackup(){
+  const exportBtn=document.getElementById('exportBtn');
+  if(exportBtn) exportBtn.onclick=doExportBackup;
+  const importBtn=document.getElementById('importBtn');
+  if(importBtn) importBtn.onclick=()=>{
+    const fileInput=document.getElementById('importFile');
+    const file=fileInput.files[0];
+    if(!file){ importFlash='Choose a .json backup file first.'; renderAll(); return; }
+    const reader=new FileReader();
+    reader.onload=(e)=>{
+      try{
+        const parsed=JSON.parse(e.target.result);
+        if(parsed && typeof parsed==='object' && parsed.state && typeof parsed.state==='object'){
+          if(typeof parsed.schemaVersion==='number' && parsed.schemaVersion>SCHEMA_VERSION){
+            importFlash=`Restored — but this backup was made with a newer template (schema v${parsed.schemaVersion}) than this file (v${SCHEMA_VERSION}). Some newer fields may not display correctly here; consider downloading the latest template.`;
+          } else {
+            importFlash='Backup restored successfully.';
+          }
+          state=parsed.state;
+        } else if(parsed && typeof parsed==='object'){
+          state=parsed;
+          importFlash='Backup restored (older unversioned file — worked fine, but re-exporting will upgrade it to the current format).';
+        } else {
+          throw new Error('unrecognized backup shape');
+        }
+        save();
+      }catch(err){
+        importFlash='Could not read that file — is it a valid backup .json?';
+      }
+      renderAll();
+    };
+    reader.onerror=()=>{ importFlash='Could not read that file.'; renderAll(); };
+    reader.readAsText(file);
+  };
+  const resetBtn=document.getElementById('resetAllBtn');
+  if(resetBtn) resetBtn.onclick=()=>{
+    if(!confirm('This permanently erases all saved progress in this browser — every checkbox, HP change, note, and log. This cannot be undone. Continue?')) return;
+    state={};
+    save();
+    renderAll();
+  };
+}
+
+function renderAll(){
+  const active = get('activeTab','Overview');
+  renderNav(active);
+  const main = document.getElementById('main');
+  let html='';
+  if(active==='Overview') html=renderOverview();
+  else if(active==='Goals & Secrets') html=renderGoals();
+  else if(active==='Locations') html=renderLocations();
+  else if(active==='Traps & Encounters') html=renderTraps();
+  else if(active==='Random Events') html=renderWandering();
+  else if(active==='Climax Tracker') html=renderPurge();
+  else if(active==='Combat Tracker') html=renderCombat();
+  else if(active==='Villain') html=renderMaligno();
+  else if(active==='Stat Blocks') html=renderStatblocks();
+  else if(active==='Party Tracker') html=renderParty();
+  else if(active==='NPC Relationships') html=renderNPCTrust();
+  else if(active==='Session Recap') html=renderRecap();
+  else if(active==='Notes') html=renderNotes();
+  else if(active==='Backup & Setup') html=renderBackup();
+  main.innerHTML = html;
+  wireEditables();
+  wireChecklists();
+  const dismissBtn=document.getElementById('dismissOnboardingBtn');
+  if(dismissBtn) dismissBtn.onclick=()=>{ set('onboardingDismissed', true); renderAll(); };
+  if(active==='Goals & Secrets') wireGoals();
+  if(active==='Locations') wireLocations();
+  if(active==='Traps & Encounters') wireTraps();
+  if(active==='Random Events') wireWandering();
+  if(active==='Climax Tracker') wirePurge();
+  if(active==='Combat Tracker') wireCombat();
+  if(active==='Villain') wireMaligno();
+  if(active==='Stat Blocks') wireStatblocks();
+  if(active==='Party Tracker') wireParty();
+  if(active==='NPC Relationships') wireNPCTrust();
+  if(active==='Session Recap') wireRecap();
+  if(active==='Notes') wireNotes();
+  if(active==='Backup & Setup') wireBackup();
+  applyEditLock();
+}
+initHeader();
+initTimer();
+updateStorageBanner();
+renderAll();
+</script>
+</body>
+</html>
