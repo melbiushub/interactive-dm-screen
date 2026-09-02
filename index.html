@@ -8,6 +8,7 @@
   --bg:#0f0e1a; --panel:#161427; --panel2:#1d1a33; --gold:#c9a84c; --red:#7a1313; --redbright:#b3251f;
   --text:#e8e3d0; --muted:#9b95b5; --border:#3a3458;
   --ember:#ff6a3d; --emberdeep:#b3401a; --gold-bright:#e6c878;
+  --arcane:#4fd8d0; --arcane-deep:#0f4a48; --arcane-glow:rgba(79,216,208,0.55);
 }
 @font-face{
   font-family:'Cinzel';
@@ -32,8 +33,21 @@ body::before{
   opacity:0.05; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-@media print{ body::before{display:none !important;} }
-header{background:radial-gradient(ellipse at 22% 0%, rgba(201,168,76,0.10), transparent 60%), linear-gradient(180deg,#1a1730,#0f0e1a);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;}
+@media print{ body::before,.ambient{display:none !important;} }
+/* ---- Ambient glow orbs: drifting light sources, echoing glowing jars/lanterns ---- */
+.ambient{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1;}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);}
+.orb1{width:380px;height:380px;top:-100px;left:-80px;background:radial-gradient(circle,var(--arcane),transparent 70%);opacity:0.28;animation:orbFloatA 16s ease-in-out infinite;}
+.orb2{width:320px;height:320px;bottom:-90px;right:-60px;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:0.22;animation:orbFloatB 20s ease-in-out infinite;}
+.orb3{width:260px;height:260px;top:38%;right:6%;background:radial-gradient(circle,var(--ember),transparent 70%);opacity:0.20;animation:orbFloatC 18s ease-in-out infinite;}
+.orb4{width:240px;height:240px;bottom:12%;left:6%;background:radial-gradient(circle,var(--arcane),transparent 70%);opacity:0.18;animation:orbFloatA 22s ease-in-out infinite reverse;}
+@keyframes orbFloatA{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(40px,30px) scale(1.1);}}
+@keyframes orbFloatB{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-35px,-20px) scale(1.06);}}
+@keyframes orbFloatC{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-20px,35px) scale(1.12);}}
+@media (prefers-reduced-motion: reduce){ .orb{animation:none !important;} }
+header{background:radial-gradient(ellipse at 22% 0%, rgba(201,168,76,0.12), transparent 60%), radial-gradient(ellipse at 85% 100%, rgba(79,216,208,0.08), transparent 55%), linear-gradient(180deg,#1c1934,#0f0e1a);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;overflow:hidden;}
+.header-motif{position:absolute;top:50%;right:2%;width:220px;height:220px;transform:translateY(-50%);pointer-events:none;opacity:0.5;z-index:0;}
+header>*{position:relative;z-index:1;}
 header h1{margin:0;color:var(--gold);font-size:26px;letter-spacing:3px;font-family:'Cinzel','Georgia',serif;font-weight:700;font-style:normal;text-shadow:0 0 14px rgba(201,168,76,0.35);outline:none;}
 header h1[contenteditable]:hover{border-bottom:1px dashed var(--gold);}
 header .sub{color:var(--muted);font-size:12px;}
@@ -52,14 +66,14 @@ header .sub{color:var(--muted);font-size:12px;}
 .addbar input,.addbar textarea{background:#0f0e1a;color:var(--text);border:1px solid var(--border);border-radius:4px;padding:6px;font-family:inherit;}
 nav{display:flex;flex-wrap:wrap;gap:6px;background:var(--panel);padding:8px 16px;border-bottom:1px solid var(--border);position:sticky;top:62px;z-index:49;}
 nav button{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:8px 14px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:13px;letter-spacing:0.5px;}
-nav button.active{background:var(--red);border-color:var(--gold);color:#fff;}
+nav button.active{background:linear-gradient(160deg,var(--redbright),var(--red));border-color:var(--gold);color:#fff;box-shadow:0 0 14px -3px rgba(179,37,31,0.65);}
 nav button:hover{border-color:var(--gold);}
 main{max-width:1100px;margin:0 auto;padding:20px 24px 80px;}
 .tab{display:none;}
 .tab.active{display:block;}
 h2.section{color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:6px;letter-spacing:1px;}
 h3{color:#d6a8a0;margin-top:24px;}
-.card{background-color:var(--panel);background-image:repeating-linear-gradient(125deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 5px);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;}
+.card{background-color:var(--panel);background-image:repeating-linear-gradient(125deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 5px);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 24px -10px rgba(0,0,0,0.7);}
 .danger{background:#2a1212;border:1px solid var(--redbright);color:#f3c8c8;padding:10px 14px;border-radius:6px;font-style:italic;margin:10px 0;}
 .readaloud{background:#1c1830;border-left:3px solid var(--gold);padding:10px 14px;font-style:italic;color:#dcd6f0;margin:10px 0;}
 table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;}
@@ -69,7 +83,7 @@ tr:nth-child(even){background:#1a1730;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid3{grid-template-columns:1fr;}}
-.statblock{background-color:#1b1730;background-image:repeating-linear-gradient(125deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 5px);border:1px solid var(--gold);border-radius:6px;padding:14px;}
+.statblock{background-color:#1b1730;background-image:repeating-linear-gradient(125deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 5px);border:1px solid var(--gold);border-radius:6px;padding:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 22px -10px rgba(0,0,0,0.7);}
 .statblock h4{margin:0 0 6px;color:var(--gold);font-style:italic;}
 .hpbar{height:18px;background:#3a1414;border-radius:4px;overflow:hidden;border:1px solid var(--border);margin:4px 0;}
 .hpfill{height:100%;background:linear-gradient(90deg,#7a1313,#b3251f);transition:width .2s;}
@@ -79,9 +93,11 @@ input[type=text]{background:#0f0e1a;color:var(--text);border:1px solid var(--bor
 button.act{background:linear-gradient(160deg,#221f3c 0%,var(--panel2) 45%,#18152a 100%);border:1px solid var(--gold);color:var(--gold);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:12px;}
 button.act:hover{background:var(--red);color:#fff;}
 button.act.sel{background:var(--red);color:#fff;}
+button.act.sel-arcane{background:linear-gradient(160deg,var(--arcane),var(--arcane-deep));border-color:var(--arcane);color:#04211f;box-shadow:0 0 10px -2px var(--arcane-glow);}
 .toggle{cursor:pointer;user-select:none;}
 .pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;border:1px solid var(--border);margin-left:6px;}
 .pill.on{background:var(--red);border-color:var(--gold);color:#fff;}
+.pill.on-arcane{background:linear-gradient(160deg,var(--arcane),var(--arcane-deep));border-color:var(--arcane);color:#04211f;box-shadow:0 0 10px -2px var(--arcane-glow);}
 .goal-card{background:#1b1730;border:1px solid var(--gold);border-radius:8px;padding:14px;cursor:pointer;position:relative;min-height:90px;}
 .goal-card .back{display:none;}
 .goal-card.flipped .front{display:none;}
@@ -171,7 +187,14 @@ body.flicker::after{content:'';position:fixed;inset:0;background:#000;opacity:0;
 </style>
 </head>
 <body>
+<div class="ambient" aria-hidden="true"><span class="orb orb1"></span><span class="orb orb2"></span><span class="orb orb3"></span><span class="orb orb4"></span></div>
 <header>
+  <svg class="header-motif" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="96" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.35"/>
+    <circle cx="100" cy="100" r="78" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.22"/>
+    <circle cx="100" cy="100" r="60" fill="none" stroke="var(--arcane)" stroke-width="0.6" opacity="0.28"/>
+    <circle cx="100" cy="100" r="42" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.16"/>
+  </svg>
   <div><h1 id="sessionTitle" contenteditable="true" spellcheck="false">INTERACTIVE DM SCREEN</h1><div class="sub" id="sessionSub" contenteditable="true" spellcheck="false">Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)</div></div>
   <div class="timerbox" id="timerBox">
     <span class="tdisplay" id="tDisplay">00:00</span>
@@ -1625,7 +1648,7 @@ function renderMaligno(){
       ${bloodied?eb('villain_bloodied','Bloodied (≤ half HP): describe any bloodied-triggered ability here.').replace('class="editable"','class="editable danger"'):''}
       <div class="row">
         <label><input type="checkbox" id="specialToggle" ${specialActive?'checked':''}> Special State Active
-        <span class="pill ${specialActive?'on':''}">${specialActive?'Active':'Inactive'}</span></label>
+        <span class="pill ${specialActive?'on-arcane':''}">${specialActive?'Active':'Inactive'}</span></label>
       </div>
       ${eb('villain_specialnote','Describe what changes when this is active (e.g. resistances change, a weak point opens, a form shifts).').replace('class="editable"','class="editable smallmuted"')}
       <div class="row">${eb('villain_regen','Describe any regeneration or recovery mechanic here, if your villain has one.')}</div>
@@ -2031,7 +2054,7 @@ function renderNPCTrust(){
   const roster = getNPCRoster();
   const npcRows = roster.map(n=>`<div class="row">
       <span class="editable" contenteditable="true" spellcheck="false" data-npcfield="name" data-npcid="${n.id}" style="min-width:130px;font-weight:bold;">${n.name}</span>
-      ${NPC_STATUSES.map(s=>`<button class="act ${n.status===s.key?'sel':''}" data-npcstatusbtn="${n.id}" data-statuskey="${s.key}">${s.label}</button>`).join('')}
+      ${NPC_STATUSES.map(s=>`<button class="act ${n.status===s.key?(s.key==='ally'?'sel-arcane':(s.key==='hostile'?'sel':'sel')):''}" data-npcstatusbtn="${n.id}" data-statuskey="${s.key}">${s.label}</button>`).join('')}
       <button class="del" data-delnpc="${n.id}">remove</button>
     </div>`).join('');
   const allyCount = roster.filter(n=>n.status==='ally').length;
