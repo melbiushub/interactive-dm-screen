@@ -7,11 +7,20 @@
 :root{
   --bg:#0f0e1a; --panel:#161427; --panel2:#1d1a33; --gold:#c9a84c; --red:#7a1313; --redbright:#b3251f;
   --text:#e8e3d0; --muted:#9b95b5; --border:#3a3458;
+  --ember:#ff6a3d; --emberdeep:#b3401a; --gold-bright:#e6c878;
+}
+@font-face{
+  font-family:'Cinzel';
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url(data:font/woff2;base64,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) format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Georgia','Times New Roman',serif;}
 header{background:linear-gradient(180deg,#1a1730,#0f0e1a);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;}
-header h1{margin:0;color:var(--gold);font-size:22px;letter-spacing:2px;font-style:italic;outline:none;}
+header h1{margin:0;color:var(--gold);font-size:26px;letter-spacing:3px;font-family:'Cinzel','Georgia',serif;font-weight:700;font-style:normal;text-shadow:0 0 14px rgba(201,168,76,0.35);outline:none;}
 header h1[contenteditable]:hover{border-bottom:1px dashed var(--gold);}
 header .sub{color:var(--muted);font-size:12px;}
 .timerbox{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--gold);border-radius:6px;padding:6px 12px;}
@@ -96,7 +105,7 @@ td,th,.editable,.card,.statblock,.goal-card,.trapcard{overflow-wrap:anywhere;}
 .onboarding h3{margin-top:0;}
 @media print{
   body{background:#fff !important;color:#111 !important;}
-  header .timerbox,nav,#storageBanner,button.act,.del,.addbar,input[type=file],.onboarding,#printBtn{display:none !important;}
+  header .timerbox,nav,#campaignBar,#storageBanner,button.act,.del,.addbar,input[type=file],.onboarding,#printBtn,#modeToggleBtn{display:none !important;}
   main{max-width:100%;padding:0;}
   .card,.statblock,.goal-card,.trapcard{background:#fff !important;border:1px solid #999 !important;color:#111 !important;break-inside:avoid;}
   h1,h2.section,h3,h4{color:#111 !important;}
@@ -113,6 +122,38 @@ td,th,.editable,.card,.statblock,.goal-card,.trapcard{overflow-wrap:anywhere;}
   .goal-card .back{display:block !important;}
   details:not([open]) summary{color:#111 !important;}
 }
+
+/* ---- Epic pass: nav icons, section headers, campaign seals, motion ---- */
+nav button{display:inline-flex;align-items:center;gap:7px;transition:transform .15s ease, border-color .2s ease, background .2s ease;}
+nav button:active{transform:scale(0.96);}
+.tabicon{flex-shrink:0;opacity:0.85;}
+nav button.active .tabicon{opacity:1;}
+h2.section{font-family:'Cinzel','Georgia',serif;font-weight:700;font-style:normal;letter-spacing:2px;text-transform:uppercase;font-size:19px;display:flex;align-items:center;gap:10px;}
+h2.section::before{content:'';display:inline-block;width:9px;height:9px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px 1px rgba(212,175,90,0.55);flex-shrink:0;}
+.tdisplay,.die,.diceresult,.rnd,.legres,.pctag,.stat-mono{font-family:'Courier New',Consolas,monospace;}
+.card,.statblock,.goal-card,button.act,.del,.seal{transition:transform .15s ease, box-shadow .25s ease, border-color .2s ease, background .2s ease;}
+.card:hover,.statblock:hover{border-color:var(--gold-bright);box-shadow:0 4px 18px -6px rgba(0,0,0,0.55);}
+button.act:hover{transform:translateY(-1px);box-shadow:0 3px 10px -3px rgba(255,106,61,0.4);}
+button.act:active{transform:translateY(0px) scale(0.97);}
+.campaign-bar{background:linear-gradient(180deg,#161227,#0f0e1a);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;position:sticky;top:0;z-index:48;}
+.seal-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.seal{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#3a3458,#201c38 70%);border:1px solid var(--border);color:var(--gold);font-family:'Cinzel','Georgia',serif;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+.seal:hover{transform:translateY(-2px);border-color:var(--gold);}
+.seal-active{background:radial-gradient(circle at 35% 30%,#ff8a5c,#b3401a 70%);border-color:var(--gold-bright);color:#1a0e04;box-shadow:0 0 10px 2px rgba(255,106,61,0.55);animation:emberPulse 2.6s ease-in-out infinite;}
+.seal-add{font-size:18px;border-style:dashed;color:var(--muted);}
+.camp-current-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.camp-current-row input[type=text]{font-family:'Cinzel','Georgia',serif;font-weight:700;font-size:13px;letter-spacing:0.5px;}
+.camp-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;}
+@keyframes emberPulse{0%,100%{box-shadow:0 0 8px 1px rgba(255,106,61,0.45);}50%{box-shadow:0 0 18px 5px rgba(255,106,61,0.8);}}
+body.flicker::after{content:'';position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;animation:flickerAnim .22s ease-out;z-index:999;}
+@keyframes flickerAnim{0%{opacity:.5;}100%{opacity:0;}}
+#currentTurnPill{animation:emberPulse 2s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){
+  .seal-active,#currentTurnPill{animation:none;}
+  body.flicker::after{display:none;}
+  nav button,.card,.statblock,.goal-card,button.act,.del,.seal{transition:none;}
+}
+@media(max-width:760px){.campaign-bar{padding:8px 16px;}}
 </style>
 </head>
 <body>
@@ -128,25 +169,42 @@ td,th,.editable,.card,.statblock,.goal-card,.trapcard{overflow-wrap:anywhere;}
   <button class="act" id="printBtn" title="Print the currently open tab">Print This Tab</button>
   <button class="act" id="modeToggleBtn" title="Play Mode locks all text and delete buttons so nothing gets accidentally changed or removed mid-session"></button>
 </header>
+<div id="campaignBar" class="campaign-bar"></div>
 <div id="storageBanner" style="display:none;"></div>
 <nav id="nav"></nav>
 <main id="main"></main>
 
 <script>
 const TABS = ["Overview","Goals & Secrets","Locations","Traps & Encounters","Random Events","Climax Tracker","Combat Tracker","Villain","Stat Blocks","Party Tracker","NPC Relationships","Session Recap","Notes","Backup & Setup"];
-const SCHEMA_VERSION = 1;
-const TEMPLATE_VERSION = '1.3.0';
+const SCHEMA_VERSION = 2;
+const TEMPLATE_VERSION = '2.0.0';
+const CAMPAIGNS_KEY = 'dmScreenCampaigns';
+const LEGACY_KEY = 'dmScreenState';
 let storageWarning = '';
-let state = {};
-try{
-  state = JSON.parse(localStorage.getItem('dmScreenState')||'{}');
-}catch(e){
-  state = {};
-  storageWarning = 'Local storage is unavailable in this browser/context — your progress will NOT be saved automatically. Use Backup & Setup to export a .json backup manually before closing this tab.';
-}
-function save(){
+function makeCampId(){ return 'camp'+Date.now()+Math.floor(Math.random()*100000); }
+function loadCampaignsData(){
   try{
-    localStorage.setItem('dmScreenState', JSON.stringify(state));
+    const raw = localStorage.getItem(CAMPAIGNS_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(parsed && parsed.campaigns && parsed.activeCampaignId && parsed.campaigns[parsed.activeCampaignId]) return parsed;
+    }
+    let legacyState = {};
+    try{ legacyState = JSON.parse(localStorage.getItem(LEGACY_KEY)||'{}') || {}; }catch(e){}
+    const id = makeCampId();
+    return { campaigns: { [id]: { name: 'My Campaign', updatedAt: Date.now(), state: legacyState } }, activeCampaignId: id };
+  }catch(e){
+    storageWarning = 'Local storage is unavailable in this browser/context — your progress will NOT be saved automatically. Use Backup & Setup to export a .json backup manually before closing this tab.';
+    const id = makeCampId();
+    return { campaigns: { [id]: { name: 'My Campaign', updatedAt: Date.now(), state: {} } }, activeCampaignId: id };
+  }
+}
+let campaignsData = loadCampaignsData();
+let state = campaignsData.campaigns[campaignsData.activeCampaignId].state;
+function saveCampaignsData(){
+  try{
+    campaignsData.campaigns[campaignsData.activeCampaignId].updatedAt = Date.now();
+    localStorage.setItem(CAMPAIGNS_KEY, JSON.stringify(campaignsData));
     storageWarning = '';
   }catch(e){
     if(e && (e.name==='QuotaExceededError' || e.code===22 || e.code===1014)){
@@ -156,6 +214,93 @@ function save(){
     }
   }
   updateStorageBanner();
+}
+function save(){ saveCampaignsData(); }
+function playFlicker(){
+  document.body.classList.add('flicker');
+  setTimeout(()=>document.body.classList.remove('flicker'), 240);
+}
+function switchCampaign(id){
+  if(!campaignsData.campaigns[id] || id===campaignsData.activeCampaignId) return;
+  campaignsData.activeCampaignId = id;
+  state = campaignsData.campaigns[id].state;
+  saveCampaignsData();
+  document.getElementById('sessionTitle').textContent = get('sessionTitle','INTERACTIVE DM SCREEN');
+  document.getElementById('sessionSub').textContent = get('sessionSub','Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)');
+  renderCampaignSwitcher();
+  renderAll();
+  playFlicker();
+}
+function createCampaign(){
+  const id = makeCampId();
+  campaignsData.campaigns[id] = { name: 'New Campaign', updatedAt: Date.now(), state: {} };
+  campaignsData.activeCampaignId = id;
+  state = campaignsData.campaigns[id].state;
+  saveCampaignsData();
+  document.getElementById('sessionTitle').textContent = 'INTERACTIVE DM SCREEN';
+  document.getElementById('sessionSub').textContent = 'Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)';
+  renderCampaignSwitcher();
+  renderAll();
+  playFlicker();
+}
+function renameCampaign(id, name){
+  if(campaignsData.campaigns[id]){ campaignsData.campaigns[id].name = (name||'').trim() || 'Untitled Campaign'; saveCampaignsData(); renderCampaignSwitcher(); }
+}
+function deleteCampaign(id){
+  const ids = Object.keys(campaignsData.campaigns);
+  if(ids.length<=1){ alert('You need at least one campaign — create a new one before deleting this one.'); return; }
+  if(!confirm(`Delete campaign "${campaignsData.campaigns[id].name}"? This cannot be undone.`)) return;
+  delete campaignsData.campaigns[id];
+  if(campaignsData.activeCampaignId===id){
+    campaignsData.activeCampaignId = Object.keys(campaignsData.campaigns)[0];
+    state = campaignsData.campaigns[campaignsData.activeCampaignId].state;
+    document.getElementById('sessionTitle').textContent = get('sessionTitle','INTERACTIVE DM SCREEN');
+    document.getElementById('sessionSub').textContent = get('sessionSub','Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)');
+  }
+  saveCampaignsData();
+  renderCampaignSwitcher();
+  renderAll();
+}
+function duplicateCampaign(id){
+  const src = campaignsData.campaigns[id];
+  const newId = makeCampId();
+  campaignsData.campaigns[newId] = { name: src.name+' (Copy)', updatedAt: Date.now(), state: JSON.parse(JSON.stringify(src.state)) };
+  saveCampaignsData();
+  renderCampaignSwitcher();
+}
+function renderCampaignSwitcher(){
+  const bar = document.getElementById('campaignBar');
+  if(!bar) return;
+  const camps = campaignsData.campaigns;
+  const activeId = campaignsData.activeCampaignId;
+  const ids = Object.keys(camps);
+  let html = '<div class="seal-row">';
+  ids.forEach(id=>{
+    const c = camps[id];
+    const initial = (c.name||'?').trim().charAt(0).toUpperCase() || '?';
+    html += `<button class="seal ${id===activeId?'seal-active':''}" data-campswitch="${id}" title="${c.name} — click to switch">${initial}</button>`;
+  });
+  html += `<button class="seal seal-add" id="campAddBtn" title="Start a new campaign">+</button>`;
+  html += '</div>';
+  html += `<div class="camp-current-row">
+    <span class="camp-label">Campaign</span>
+    <input type="text" id="campNameInput" value="${camps[activeId].name}" style="width:160px;">
+    <button class="act" id="campDuplicateBtn" style="font-size:11px;">Duplicate</button>
+    ${ids.length>1?`<button class="del" id="campDeleteBtn">Delete</button>`:''}
+  </div>`;
+  bar.innerHTML = html;
+  bar.querySelectorAll('[data-campswitch]').forEach(b=>{
+    b.onclick=()=>switchCampaign(b.dataset.campswitch);
+  });
+  const addBtn=document.getElementById('campAddBtn');
+  if(addBtn) addBtn.onclick=()=>createCampaign();
+  const nameInput=document.getElementById('campNameInput');
+  if(nameInput) nameInput.onchange=()=>renameCampaign(activeId, nameInput.value);
+  const dupBtn=document.getElementById('campDuplicateBtn');
+  if(dupBtn) dupBtn.onclick=()=>duplicateCampaign(activeId);
+  const delBtn=document.getElementById('campDeleteBtn');
+  if(delBtn) delBtn.onclick=()=>deleteCampaign(activeId);
+  applyEditLock();
 }
 function updateStorageBanner(){
   const el = document.getElementById('storageBanner');
@@ -319,12 +464,32 @@ function initTimer(){
   document.getElementById('tMinutes').oninput=(e)=>{ set('timerMinutesInput', e.target.value); };
 }
 
+// ---- Icon set: simple line icons, one per tab, for faster wayfinding across 14 tabs ----
+const TAB_ICONS = {
+  "Overview": '<circle cx="12" cy="12" r="9"/><polygon points="12,7 14.2,12 12,17 9.8,12" fill="currentColor" stroke="none"/>',
+  "Goals & Secrets": '<rect x="5" y="4" width="14" height="16" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>',
+  "Locations": '<path d="M12 21s-7-7.2-7-12a7 7 0 0 1 14 0c0 4.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.3"/>',
+  "Traps & Encounters": '<path d="M12 2c2 3 5 6 5 10a5 5 0 0 1-10 0c0-1.5.6-2.6 1.3-3.6-.1 1 .3 2 1.2 2 1 0 1.5-.8 1.2-1.8C10.2 7 9.8 5 12 2z"/>',
+  "Random Events": '<polygon points="12,2 21,7.5 21,16.5 12,22 3,16.5 3,7.5"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="3" y1="7.5" x2="21" y2="16.5"/><line x1="21" y1="7.5" x2="3" y2="16.5"/>',
+  "Climax Tracker": '<path d="M7 3h10l-5 9-5-9z"/><path d="M7 21h10l-5-9-5 9z"/>',
+  "Combat Tracker": '<line x1="4" y1="20" x2="20" y2="4"/><line x1="4" y1="4" x2="20" y2="20"/><line x1="14.2" y1="3.2" x2="20.8" y2="3.2"/><line x1="14.2" y1="20.8" x2="20.8" y2="20.8"/>',
+  "Villain": '<circle cx="12" cy="10" r="7"/><circle cx="9.3" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="14.7" cy="10" r="1.2" fill="currentColor" stroke="none"/><path d="M9 17v3M15 17v3M12 17.5v3.5"/>',
+  "Stat Blocks": '<path d="M12 2l7 3v6c0 5-3.5 8.5-7 11-3.5-2.5-7-6-7-11V5l7-3z"/>',
+  "Party Tracker": '<path d="M12 21s-7.5-4.9-10-9.5C0.3 8 2 4 6 4c2.2 0 3.7 1.3 6 3.6C14.3 5.3 15.8 4 18 4c4 0 5.7 4 4 7.5C19.5 16.1 12 21 12 21z"/>',
+  "NPC Relationships": '<circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/>',
+  "Session Recap": '<path d="M12 6c-2-1.5-5-2-8-1v13c3-1 6-.5 8 1 2-1.5 5-2 8-1V5c-3-1-6-.5-8 1z"/><line x1="12" y1="6" x2="12" y2="19"/>',
+  "Notes": '<path d="M4 20l3-1 10-10-2-2L5 17l-1 3z"/><line x1="14" y1="6" x2="17" y2="9"/>',
+  "Backup & Setup": '<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.6" fill="currentColor" stroke="none"/>'
+};
+function tabIconSvg(name){
+  return `<svg class="tabicon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${TAB_ICONS[name]||''}</svg>`;
+}
 function renderNav(active){
   const nav=document.getElementById('nav');
   nav.innerHTML='';
   TABS.forEach(t=>{
     const b=document.createElement('button');
-    b.textContent=t;
+    b.innerHTML = tabIconSvg(t)+'<span>'+t+'</span>';
     if(t===active) b.classList.add('active');
     b.onclick=()=>{ set('activeTab',t); renderAll(); };
     nav.appendChild(b);
@@ -421,7 +586,8 @@ function renderOnboarding(){
   <ul style="margin:0 0 10px;padding-left:20px;">
     <li><b>Click any text to edit it.</b> It saves the moment you click away — no Save button anywhere.</li>
     <li><b>Everything autosaves to this browser.</b> No account, no login, nothing to configure.</li>
-    <li>Check <b>Backup &amp; Setup</b> to export a safety copy, or to wipe this browser's progress and start a fresh campaign from the same file.</li>
+    <li>The row of seals below the header is your <b>Campaign switcher</b> — run more than one game from the same file, each with its own fully separate record. Click + to start another.</li>
+    <li>Check <b>Backup &amp; Setup</b> to export a safety copy of every campaign, or to wipe the active one and start it fresh.</li>
     <li>Most lists (Locations, Traps, Goals, NPCs, Party, Stat Blocks) have <b>+ Add</b> and <b>Clone</b> buttons — nothing is capped at the starting count.</li>
   </ul>
   <button class="act" id="dismissOnboardingBtn">Got it, hide this</button>
@@ -1278,7 +1444,7 @@ function renderCombat(){
     const isTurn = c.id===turnId;
     html += `<div class="statblock" style="margin-bottom:10px;${isTurn?'border-color:var(--redbright);box-shadow:0 0 0 1px var(--redbright);':''}">
     <div class="row">
-      ${isTurn?'<span class="pill on">CURRENT TURN</span>':''}
+      ${isTurn?'<span class="pill on" id="currentTurnPill">CURRENT TURN</span>':''}
       Init <input type="number" value="${c.init}" data-combinit="${c.id}" style="width:55px;">
       <input type="text" value="${c.name}" data-combname="${c.id}" style="flex:1;min-width:120px;font-weight:bold;">
       AC <input type="number" value="${c.ac}" data-combac="${c.id}" style="width:55px;">
@@ -1286,7 +1452,7 @@ function renderCombat(){
     </div>
     <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
     <div class="row">
-      <span>${c.hp} / ${c.maxhp} HP</span>
+      <span class="stat-mono">${c.hp} / ${c.maxhp} HP</span>
       Max <input type="number" value="${c.maxhp}" data-combmaxhp="${c.id}" style="width:65px;">
       <input type="number" placeholder="amt" data-combamt="${c.id}" style="width:55px;">
       <button class="act" data-combdmg="${c.id}">Dmg</button>
@@ -1435,7 +1601,7 @@ function renderMaligno(){
       <h4>HP &amp; Status</h4>
       <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
       <div class="row">
-        <span>${hp} / ${maxHP} HP</span>
+        <span class="stat-mono">${hp} / ${maxHP} HP</span>
         Max <input type="number" id="villainMaxHPInput" value="${maxHP}" style="width:70px;">
         <input type="number" id="dmgInput" placeholder="amt">
         <button class="act" id="dmgApply">Apply Damage</button>
@@ -1509,7 +1675,7 @@ function renderSecondaryVillains(){
     </div>
     <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
     <div class="row">
-      <span>${v.hp} / ${v.maxhp} HP</span>
+      <span class="stat-mono">${v.hp} / ${v.maxhp} HP</span>
       Max <input type="number" value="${v.maxhp}" data-svmaxhp="${v.id}" style="width:65px;">
       <input type="number" placeholder="amt" data-svamt="${v.id}" style="width:55px;">
       <button class="act" data-svdmg="${v.id}">Dmg</button>
@@ -1726,7 +1892,7 @@ function renderParty(){
     <div class="row">AC <input type="number" value="${m.ac}" data-pmac="${m.id}" style="width:50px;"></div>
     <div class="hpbar"><div class="hpfill" style="width:${pct}%"></div></div>
     <div class="row">
-      <span>${m.hp} / ${m.maxhp} HP</span>
+      <span class="stat-mono">${m.hp} / ${m.maxhp} HP</span>
     </div>
     <div class="row">
       Max <input type="number" value="${m.maxhp}" data-pmmaxhp="${m.id}" style="width:60px;">
@@ -2123,7 +2289,7 @@ function wireNotes(){
 // ---- Backup & Setup ----
 let importFlash = '';
 function doExportBackup(){
-  const payload = { schemaVersion: SCHEMA_VERSION, exportedAt: new Date().toISOString(), state: state };
+  const payload = { schemaVersion: SCHEMA_VERSION, exportedAt: new Date().toISOString(), campaigns: campaignsData.campaigns, activeCampaignId: campaignsData.activeCampaignId };
   const dataStr = JSON.stringify(payload, null, 2);
   const blob = new Blob([dataStr], {type:'application/json'});
   const url = URL.createObjectURL(blob);
@@ -2140,6 +2306,7 @@ function doExportBackup(){
 function renderBackup(){
   const flash = importFlash;
   importFlash = '';
+  const campCount = Object.keys(campaignsData.campaigns).length;
   const savedKeys = Object.keys(state).length;
   return `
   <h2 class="section">Backup &amp; Setup</h2>
@@ -2152,16 +2319,16 @@ function renderBackup(){
   <div class="card">
   <h3 style="margin-top:0">Autosave</h3>
   <p>Every edit on every tab — checkboxes, HP, notes, dice rolls, everything — saves automatically to this browser's local storage as you make it. Nothing to click, no "Save" button needed. Closing the tab, reloading, or losing power will not lose progress, <b>as long as you keep using this same file in this same browser</b> (clearing browser data, using a different browser, or opening a different copy of this file will not carry it over).</p>
-  <p class="smallmuted">Currently tracking ${savedKeys} saved field${savedKeys!==1?'s':''} in this browser's storage.</p>
+  <p class="smallmuted">Currently tracking ${campCount} campaign${campCount!==1?'s':''} (${savedKeys} saved field${savedKeys!==1?'s':''} in the active one) in this browser's storage.</p>
   </div>
   <div class="card">
   <h3 style="margin-top:0">Download a Backup</h3>
-  <p class="smallmuted">Exports everything — every edit, every tracker, the whole campaign state — as a single .json file. Do this before clearing your browser, switching devices, or handing the campaign off to a co-DM.</p>
+  <p class="smallmuted">Exports <b>every campaign</b> in the switcher above — every edit, every tracker — as a single .json file. Do this before clearing your browser, switching devices, or handing a campaign off to a co-DM.</p>
   <button class="act" id="exportBtn" style="font-size:14px;padding:8px 16px;">Download Backup (.json)</button>
   </div>
   <div class="card">
   <h3 style="margin-top:0">Restore from Backup</h3>
-  <p class="smallmuted">Loads a previously downloaded .json backup, replacing everything currently in this browser with what's in the file.</p>
+  <p class="smallmuted">Loads a previously downloaded .json backup, replacing <b>all campaigns</b> currently in this browser with what's in the file. Download a backup of what's here first if you want to keep it.</p>
   <div class="row">
     <input type="file" id="importFile" accept="application/json,.json">
     <button class="act" id="importBtn">Restore from Backup</button>
@@ -2169,9 +2336,9 @@ function renderBackup(){
   ${flash?`<p class="smallmuted">${flash}</p>`:''}
   </div>
   <div class="card">
-  <h3 style="margin-top:0">Start a Fresh Campaign</h3>
-  <p class="smallmuted">This is how anyone else picks up this same file and sets it up for their own table: wipes every checkbox, HP change, note, and log from this browser and reverts every tab back to its original blank template — nothing deleted from the file itself, only from this browser's saved progress. <b>Download a backup first if you want to keep what's here.</b></p>
-  <button class="act" id="resetAllBtn" style="border-color:var(--redbright);color:#f3c8c8;">Reset Everything to Blank</button>
+  <h3 style="margin-top:0">Reset This Campaign to Blank</h3>
+  <p class="smallmuted">Wipes every checkbox, HP change, note, and log from the <b>currently active campaign only</b> — your other campaigns in the switcher above are untouched. This is how anyone else picks up this same file and sets up their own campaign, or how you start a fresh one in the same slot. <b>Download a backup first if you want to keep what's here.</b></p>
+  <button class="act" id="resetAllBtn" style="border-color:var(--redbright);color:#f3c8c8;">Reset This Campaign to Blank</button>
   </div>
   `;
 }
@@ -2187,20 +2354,31 @@ function wireBackup(){
     reader.onload=(e)=>{
       try{
         const parsed=JSON.parse(e.target.result);
-        if(parsed && typeof parsed==='object' && parsed.state && typeof parsed.state==='object'){
+        if(parsed && typeof parsed==='object' && parsed.campaigns && typeof parsed.campaigns==='object' && parsed.activeCampaignId){
           if(typeof parsed.schemaVersion==='number' && parsed.schemaVersion>SCHEMA_VERSION){
             importFlash=`Restored — but this backup was made with a newer template (schema v${parsed.schemaVersion}) than this file (v${SCHEMA_VERSION}). Some newer fields may not display correctly here; consider downloading the latest template.`;
           } else {
             importFlash='Backup restored successfully.';
           }
-          state=parsed.state;
+          campaignsData = { campaigns: parsed.campaigns, activeCampaignId: parsed.campaigns[parsed.activeCampaignId] ? parsed.activeCampaignId : Object.keys(parsed.campaigns)[0] };
+          state = campaignsData.campaigns[campaignsData.activeCampaignId].state;
+        } else if(parsed && typeof parsed==='object' && parsed.state && typeof parsed.state==='object'){
+          const id = makeCampId();
+          campaignsData = { campaigns: { [id]: { name:'Restored Campaign', updatedAt: Date.now(), state: parsed.state } }, activeCampaignId: id };
+          state = campaignsData.campaigns[id].state;
+          importFlash='Backup restored (older single-campaign file — loaded as "Restored Campaign").';
         } else if(parsed && typeof parsed==='object'){
-          state=parsed;
-          importFlash='Backup restored (older unversioned file — worked fine, but re-exporting will upgrade it to the current format).';
+          const id = makeCampId();
+          campaignsData = { campaigns: { [id]: { name:'Restored Campaign', updatedAt: Date.now(), state: parsed } }, activeCampaignId: id };
+          state = campaignsData.campaigns[id].state;
+          importFlash='Backup restored (older unversioned file — loaded as "Restored Campaign").';
         } else {
           throw new Error('unrecognized backup shape');
         }
-        save();
+        saveCampaignsData();
+        document.getElementById('sessionTitle').textContent = get('sessionTitle','INTERACTIVE DM SCREEN');
+        document.getElementById('sessionSub').textContent = get('sessionSub','Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)');
+        renderCampaignSwitcher();
       }catch(err){
         importFlash='Could not read that file — is it a valid backup .json?';
       }
@@ -2211,9 +2389,13 @@ function wireBackup(){
   };
   const resetBtn=document.getElementById('resetAllBtn');
   if(resetBtn) resetBtn.onclick=()=>{
-    if(!confirm('This permanently erases all saved progress in this browser — every checkbox, HP change, note, and log. This cannot be undone. Continue?')) return;
-    state={};
-    save();
+    if(!confirm('This permanently erases all saved progress in the active campaign — every checkbox, HP change, note, and log. Other campaigns are not affected. This cannot be undone. Continue?')) return;
+    campaignsData.campaigns[campaignsData.activeCampaignId].state = {};
+    state = campaignsData.campaigns[campaignsData.activeCampaignId].state;
+    saveCampaignsData();
+    document.getElementById('sessionTitle').textContent = 'INTERACTIVE DM SCREEN';
+    document.getElementById('sessionSub').textContent = 'Your Campaign Name · DM Control Screen · Fully Customizable · Compatible with 5th Edition (2024 rules)';
+    renderCampaignSwitcher();
     renderAll();
   };
 }
@@ -2260,6 +2442,7 @@ function renderAll(){
 initHeader();
 initTimer();
 updateStorageBanner();
+renderCampaignSwitcher();
 renderAll();
 </script>
 </body>

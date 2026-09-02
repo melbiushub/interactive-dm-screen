@@ -10,7 +10,13 @@ The template ships completely blank on purpose — every location, trap, NPC, an
 
 Included: campaign overview, sealed player goals, locations with sub-locations and map upload, traps with dice rollers, multi-stage encounter courses, a random events table, a configurable climax/finale tracker, a full combat tracker for any fight, a villain tracker (HP, Legendary Resistance, signature ability, plus a lightweight secondary-boss slot), custom stat blocks, an unlimited party roster, an NPC trust/relationship tracker, a session recap generator that auto-compiles from everything else, DM notes, and a Backup & Setup tab with JSON export/import and one-click reset to blank.
 
+**Run more than one campaign from the same file.** A row of wax-seal icons in the header switches between fully separate campaign records — each with its own locations, party, villain, everything. Add, rename, duplicate, or delete a campaign without touching the others.
+
 A **Play Mode** toggle locks all text fields and delete buttons during a session so nothing gets accidentally edited or removed mid-game, while dice, HP trackers, and round counters stay fully live. A **Print This Tab** button gives a clean, ink-friendly printout of whatever tab is open.
+
+## Design
+
+A dark, high-contrast "living grimoire" theme: an embedded Cinzel display face for titles and section headers, a hand-built line-icon set for fast wayfinding across 14 tabs, and an ember-orange accent used only for the active campaign seal and live combat state — kept deliberately rare so it still means something when it glows.
 
 ## Usage
 
