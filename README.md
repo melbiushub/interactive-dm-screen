@@ -16,7 +16,7 @@ A **Play Mode** toggle locks all text fields and delete buttons during a session
 
 ## Design
 
-A dark, high-contrast "living grimoire" theme: an embedded Cinzel display face for titles and section headers, a hand-built line-icon set for fast wayfinding across 14 tabs, and an ember-orange accent used only for the active campaign seal and live combat state — kept deliberately rare so it still means something when it glows.
+A warm "alchemist's desk" theme: parchment-and-brass palette, an embedded IM Fell English SC display face for titles and section headers, a hand-drawn line-art strip of alchemy tools (mortar and pestle, vial, book, quill, candle) across the header, and a forest-green accent reserved for Ally/Active status so it still means something when it glows. Brass corner marks on every card nod to a ledger page, and a hand-built line-icon set gives fast wayfinding across 14 tabs.
 
 ## Usage
 
