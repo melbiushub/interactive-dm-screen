@@ -16,7 +16,7 @@ A **Play Mode** toggle locks all text fields and delete buttons during a session
 
 ## Design
 
-A warm "alchemist's desk" theme: parchment-and-brass palette, an embedded IM Fell English SC display face for titles and section headers, a hand-drawn line-art strip of alchemy tools (mortar and pestle, vial, book, quill, candle) across the header, and a forest-green accent reserved for Ally/Active status so it still means something when it glows. Brass corner marks on every card nod to a ledger page, and a hand-built line-icon set gives fast wayfinding across 14 tabs.
+A steampunk alchemist's laboratory theme: copper and verdigris-teal palette, embedded Ultra (display) and Special Elite (gauge/dice readouts) faces, and a hand-drawn animated still — a bubbling flask, coiled condenser, turning gear, and pressure gauge — in the header. Riveted brass corner marks appear on every card, buttons emit a small steam-puff on click, HP bars carry a liquid shimmer, and a glowing acid-green accent is reserved for Ally/Active status so it still means something when it glows. All motion respects `prefers-reduced-motion`.
 
 ## Usage
 
