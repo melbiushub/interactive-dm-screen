@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option A — The Desk Grimoire</title>
+<style>
+:root{
+  --void:#050302; --leather:#1b1108; --leather-hi:#3a2415; --vellum:#e8d6ac;
+  --gilt:#c9a34e; --gilt-bright:#e3c176; --panel:#221810; --panel2:#2c2015;
+  --blood:#7a1620; --bloodbright:#a52332; --witchfire:#3fdb96; --candle:#f0b25c;
+  --border:#4a3420; --text:#e8d6ac; --muted:#8a7455;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;min-height:100vh;color:var(--text);font-family:Georgia,'Iowan Old Style','Times New Roman',serif;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(201,163,78,0.08), transparent 55%),
+    radial-gradient(ellipse at 50% 110%, rgba(0,0,0,0.7), transparent 60%),
+    var(--void);
+  display:flex;align-items:center;justify-content:center;padding:32px 16px;overflow-x:hidden;
+}
+.caption{position:fixed;top:14px;left:50%;transform:translateX(-50%);font-family:Georgia,serif;font-size:12px;letter-spacing:.5px;color:var(--muted);text-align:center;z-index:50;}
+.caption b{color:var(--gilt-bright);}
+
+/* ambient embers */
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.ambient::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle,var(--candle) 0 1.4px,transparent 2px),
+    radial-gradient(circle,var(--witchfire) 0 1px,transparent 1.6px);
+  background-size:190px 320px,240px 360px;
+  background-position:20px 0,190px 160px;
+  opacity:.3;mix-blend-mode:screen;
+  animation:emberRise 24s linear infinite;
+}
+@keyframes emberRise{from{background-position:20px 0,190px 160px;}to{background-position:20px -1280px,190px -1440px;}}
+
+/* the desk grimoire */
+.desk{position:relative;z-index:1;perspective:1800px;width:min(920px,94vw);}
+.book{
+  position:relative;background:linear-gradient(160deg,var(--leather-hi),var(--leather) 55%,#0e0904 100%);
+  border-radius:10px;padding:22px;
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 4px 0 rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.6),inset 0 2px 0 rgba(255,255,255,.05);
+}
+.book::before,.book::after{ /* brass corner studs */
+  content:'';position:absolute;width:10px;height:10px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#6b4a1e 75%);
+  box-shadow:0 1px 3px rgba(0,0,0,.8),0 0 6px rgba(201,163,78,.4);
+}
+.book::before{top:12px;left:12px;}
+.book::after{bottom:12px;right:12px;}
+.stud-tr{position:absolute;top:12px;right:12px;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#6b4a1e 75%);box-shadow:0 1px 3px rgba(0,0,0,.8),0 0 6px rgba(201,163,78,.4);}
+.stud-bl{position:absolute;bottom:12px;left:12px;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#6b4a1e 75%);box-shadow:0 1px 3px rgba(0,0,0,.8),0 0 6px rgba(201,163,78,.4);}
+
+.spread{position:relative;display:flex;min-height:440px;border-radius:4px;overflow:hidden;box-shadow:inset 0 0 40px rgba(0,0,0,.6);}
+.gutter{
+  width:34px;flex-shrink:0;background:linear-gradient(90deg,#000,rgba(0,0,0,.75) 40%,transparent);
+  position:relative;z-index:3;
+}
+.gutter::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.5),transparent);}
+.page-wrap{flex:1;position:relative;}
+.page-area{
+  position:relative;height:100%;min-height:440px;background-color:var(--panel);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 8% 6%,rgba(0,0,0,.4),transparent 55%),
+    radial-gradient(ellipse 55% 45% at 92% 94%,rgba(0,0,0,.35),transparent 55%),
+    repeating-linear-gradient(125deg,rgba(255,255,255,.02) 0px,rgba(255,255,255,.02) 1px,transparent 1px,transparent 5px);
+  border-left:1px solid rgba(0,0,0,.5);
+  padding:28px 30px;transform-origin:left center;backface-visibility:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.3);
+}
+.page-area.turning-out{animation:turnOut .32s cubic-bezier(.45,0,.2,1) forwards;}
+.page-area.turning-in{animation:turnIn .34s cubic-bezier(.2,0,.3,1) forwards;}
+@keyframes turnOut{
+  0%{transform:rotateY(0deg);filter:brightness(1);}
+  60%{filter:brightness(.55);}
+  100%{transform:rotateY(-98deg);filter:brightness(.4);}
+}
+@keyframes turnIn{
+  0%{transform:rotateY(96deg);filter:brightness(.4);}
+  40%{filter:brightness(.6);}
+  100%{transform:rotateY(0deg);filter:brightness(1);}
+}
+.page-area::before{ /* corner gilt dot */
+  content:'';position:absolute;top:8px;left:8px;width:10px;height:10px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--gilt-bright),var(--gilt) 55%,#6b4520 100%);
+  box-shadow:0 0 8px 1px rgba(201,163,78,.4);opacity:.85;
+}
+
+h2.pagehead{margin:0 0 4px;color:var(--gilt-bright);font-size:21px;letter-spacing:.5px;text-shadow:0 2px 0 rgba(0,0,0,.8),0 0 14px rgba(201,163,78,.3);}
+.pagesub{margin:0 0 18px;color:var(--muted);font-size:13px;}
+.mock-card{background:rgba(0,0,0,.22);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:12px;}
+.mock-row{display:flex;gap:10px;align-items:center;margin:8px 0;flex-wrap:wrap;}
+.mock-btn{background:linear-gradient(160deg,#4a3016,#241407 60%,#130a04);border:1px solid var(--gilt);color:var(--gilt-bright);padding:6px 12px;border-radius:4px;font-size:12px;cursor:default;}
+.hpbar{height:16px;background:#160a08;border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+.hpfill{height:100%;width:64%;background:linear-gradient(90deg,var(--blood),var(--bloodbright));}
+.mock-pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;border:1px solid var(--border);color:var(--muted);}
+table.mock{width:100%;border-collapse:collapse;font-size:13px;}
+table.mock td,table.mock th{border:1px solid var(--border);padding:6px 9px;text-align:left;}
+table.mock th{background:var(--blood);color:#fff;font-weight:normal;}
+
+/* thumb-index tabs down the right edge */
+.thumbs{position:absolute;top:14px;right:-1px;display:flex;flex-direction:column;gap:6px;z-index:4;}
+.thumb{
+  position:relative;background:linear-gradient(180deg,var(--panel2),var(--leather));
+  border:1px solid var(--border);border-right:none;color:var(--muted);
+  padding:7px 12px 7px 10px;border-radius:4px 0 0 4px;font-family:Georgia,serif;font-size:12px;
+  cursor:pointer;text-align:right;min-width:118px;transform:translateX(0);
+  transition:transform .18s ease,background .2s ease,color .2s ease;
+}
+.thumb:hover{transform:translateX(-4px);color:var(--vellum);border-color:var(--gilt);}
+.thumb.active{
+  background:linear-gradient(180deg,var(--vellum),#a68a53);color:#241708;
+  border-color:var(--gilt-bright);transform:translateX(-8px);
+  box-shadow:-4px 3px 14px -6px rgba(0,0,0,.6),0 0 10px -2px rgba(201,163,78,.5);font-weight:bold;
+}
+.thumb.active::before{
+  content:'';position:absolute;left:6px;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;
+  background:var(--witchfire);box-shadow:0 0 6px 2px rgba(63,219,150,.6);
+}
+@media(max-width:640px){
+  .thumbs{flex-direction:row;flex-wrap:wrap;position:static;margin-top:10px;}
+  .thumb{border-radius:4px;border-right:1px solid var(--border);text-align:left;min-width:0;}
+  .thumb:hover,.thumb.active{transform:none;}
+  .spread{flex-direction:column;}
+  .gutter{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="caption">Option A — <b>The Desk Grimoire</b> — click a leather tab to watch the page turn</div>
+<div class="ambient"></div>
+<div class="desk">
+  <div class="book">
+    <span class="stud-tr"></span><span class="stud-bl"></span>
+    <div class="spread">
+      <div class="gutter"></div>
+      <div class="page-wrap">
+        <div class="page-area" id="pageArea"></div>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const PAGES = {
+  overview:{title:'Campaign at a Glance',sub:'A place to skim before a session',body:`
+    <div class="mock-card"><div class="mock-row"><span class="mock-pill">Setting</span> A drowned coastal city, one tide from ruin</div>
+    <div class="mock-row"><span class="mock-pill">Current Crisis</span> The lighthouse keeper has stopped answering</div></div>`},
+  combat:{title:'Combat Tracker',sub:"Round 3 — Elira's turn",body:`
+    <div class="mock-card"><div class="mock-row"><b>Elira</b> <span class="mock-pill">AC 15</span></div>
+    <div class="hpbar"><div class="hpfill"></div></div>
+    <div class="mock-row"><button class="mock-btn">Next Turn</button><button class="mock-btn">Dmg</button><button class="mock-btn">Heal</button></div></div>`},
+  stats:{title:'Stat Blocks',sub:'Monsters and key NPCs, ready to read aloud',body:`
+    <div class="mock-card"><table class="mock"><tr><th>Rot Sentinel</th><th></th></tr>
+    <tr><td>AC / HP</td><td>16 / 68</td></tr><tr><td>Speed</td><td>30 ft, swim 30 ft</td></tr></table></div>`},
+  villain:{title:'The Drowned Choir — Live Tracker',sub:'Bloodied at half HP',body:`
+    <div class="mock-card"><div class="hpbar"><div class="hpfill" style="width:38%;background:linear-gradient(90deg,#5c0f16,#8f1b1f)"></div></div>
+    <div class="mock-row"><span class="mock-pill">Legendary Resistance</span> ● ● ○</div></div>`},
+  notes:{title:'DM Notes',sub:"Whatever you don't want to forget",body:`
+    <div class="mock-card">The innkeeper is lying about the second key. Don't let the party leave town without noticing the tide chart on the wall.</div>`}
+};
+const ORDER=['overview','combat','stats','villain','notes'];
+let current='overview';
+const pageArea=document.getElementById('pageArea');
+const thumbs=document.getElementById('thumbs');
+
+function renderThumbs(){
+  thumbs.innerHTML = ORDER.map(k=>`<button class="thumb ${k===current?'active':''}" data-k="${k}">${PAGES[k].title.split(' — ')[0].split(',')[0]}</button>`).join('');
+  thumbs.querySelectorAll('.thumb').forEach(b=>b.onclick=()=>goTo(b.dataset.k));
+}
+function paint(k){
+  const p=PAGES[k];
+  pageArea.innerHTML = `<h2 class="pagehead">${p.title}</h2><p class="pagesub">${p.sub}</p>${p.body}`;
+}
+function goTo(k){
+  if(k===current || pageArea.classList.contains('turning-out')) return;
+  pageArea.classList.add('turning-out');
+  pageArea.addEventListener('animationend', function h1(){
+    pageArea.removeEventListener('animationend',h1);
+    current=k; paint(k); renderThumbs();
+    pageArea.classList.remove('turning-out');
+    pageArea.classList.add('turning-in');
+    pageArea.addEventListener('animationend', function h2(){
+      pageArea.removeEventListener('animationend',h2);
+      pageArea.classList.remove('turning-in');
+    },{once:true});
+  },{once:true});
+}
+paint(current); renderThumbs();
+</script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option C — The Illuminated Spellbook</title>
+<style>
+:root{
+  --void:#0a0704; --desk:#140d08; --lamp:#f2b25e;
+  --leather:#2a160c; --leather-hi:#4a2c17; --leather-dk:#150b06;
+  --page:#e9ddc1; --page2:#ded0ac; --ink:#2a1c10; --ink-soft:#5a4630;
+  --gilt:#b3874a; --gilt-bright:#e8c179;
+  --blood:#7a1620; --bloodbright:#a52332; --witchfire:#2fae7c;
+  --border:#c7ad78;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;min-height:100vh;color:var(--ink);font-family:Georgia,'Iowan Old Style','Times New Roman',serif;
+  background:
+    radial-gradient(ellipse 700px 560px at 18% 6%, rgba(242,178,94,.16), transparent 60%),
+    radial-gradient(ellipse at 50% 105%, rgba(0,0,0,.75), transparent 60%),
+    linear-gradient(160deg,var(--desk),var(--void) 75%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;padding:70px 16px 40px;
+}
+.caption{position:fixed;top:14px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.5px;color:#a4906c;z-index:80;text-align:center;}
+.caption b{color:var(--gilt-bright);}
+
+/* soft blurred book-spine silhouettes for depth, echoing the desk in the reference */
+.silhouette{position:fixed;bottom:-40px;width:180px;height:260px;border-radius:6px;filter:blur(7px);opacity:.5;pointer-events:none;z-index:0;}
+.silhouette.l{left:-60px;background:linear-gradient(100deg,#1c1006,#3a2010 60%,#1c1006);transform:rotate(-8deg);}
+.silhouette.r{right:-60px;background:linear-gradient(100deg,#2a0e10,#5c1a1a 60%,#2a0e10);transform:rotate(9deg);}
+
+/* dust motes drifting through the lamp light */
+.motes{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.motes::after{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,var(--lamp) 0 1.3px,transparent 2px);
+  background-size:170px 300px;background-position:10% 0;opacity:.28;mix-blend-mode:screen;
+  animation:drift 20s linear infinite;
+}
+@keyframes drift{from{background-position:10% 0;}to{background-position:10% -1200px;}}
+
+.bookstage{position:relative;z-index:1;perspective:2400px;width:min(980px,94vw);}
+
+.leather-frame{
+  position:relative;background:linear-gradient(160deg,var(--leather-hi),var(--leather) 55%,var(--leather-dk));
+  border-radius:16px;padding:18px;
+  box-shadow:0 55px 90px -28px rgba(0,0,0,.9),0 4px 0 rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.6),inset 0 2px 0 rgba(255,255,255,.05);
+}
+.seal{position:absolute;top:-14px;left:26px;width:34px;height:34px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#6b4a1e 75%);box-shadow:0 3px 8px rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center;font-size:15px;color:#3a2410;z-index:3;}
+
+.pages{
+  position:relative;min-height:480px;border-radius:6px;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 12% 8%,rgba(255,255,255,.5),transparent 40%),
+    radial-gradient(ellipse at 88% 92%,rgba(110,80,40,.18),transparent 45%),
+    var(--page);
+  box-shadow:inset 0 0 46px rgba(110,80,40,.22);
+  transform-origin:center center;backface-visibility:hidden;
+}
+.pages.turning-out{animation:turnOut .34s cubic-bezier(.45,0,.2,1) forwards;}
+.pages.turning-in{animation:turnIn .36s cubic-bezier(.2,0,.3,1) forwards;}
+@keyframes turnOut{0%{transform:rotateY(0);filter:brightness(1);}60%{filter:brightness(.55);}100%{transform:rotateY(-92deg);filter:brightness(.35);}}
+@keyframes turnIn{0%{transform:rotateY(90deg);filter:brightness(.35);}40%{filter:brightness(.6);}100%{transform:rotateY(0);filter:brightness(1);}}
+
+.pages::before{ /* gutter shadow */
+  content:'';position:absolute;top:0;bottom:0;left:50%;width:90px;transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,rgba(70,45,20,.3),transparent);pointer-events:none;z-index:2;
+}
+.gilt-frame{position:absolute;inset:16px;border:1px solid var(--gilt);box-shadow:inset 0 0 0 4px transparent,inset 0 0 0 5px rgba(179,135,74,.55);border-radius:3px;pointer-events:none;z-index:2;}
+.corner-mark{position:absolute;width:9px;height:9px;background:var(--gilt-bright);transform:rotate(45deg);box-shadow:0 0 6px rgba(179,135,74,.5);z-index:3;pointer-events:none;}
+.corner-mark.tl{top:9px;left:9px;} .corner-mark.tr{top:9px;right:9px;}
+.corner-mark.bl{bottom:9px;left:9px;} .corner-mark.br{bottom:9px;right:9px;}
+
+.leaf-text{position:relative;z-index:1;padding:44px 58px 48px;max-width:760px;margin:0 auto;}
+.leaf-text h2{margin:0 0 4px;color:#5a2f10;font-size:23px;letter-spacing:.3px;font-weight:normal;font-variant:small-caps;}
+.leaf-text .sub{margin:0 0 20px;color:var(--ink-soft);font-size:13px;font-style:italic;}
+.leaf-text p:first-of-type::first-letter{
+  font-family:Georgia,serif;font-size:50px;line-height:.75;float:left;padding:5px 7px 0 0;
+  color:var(--gilt);text-shadow:1px 1px 0 rgba(0,0,0,.12);
+}
+.leaf-text p{line-height:1.65;margin:0 0 12px;}
+
+/* mock components, restyled for parchment (dark on light, unlike the ink-panel app) */
+.mock-card{background:rgba(120,90,40,.08);border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin:10px 0;}
+.mock-row{display:flex;gap:10px;align-items:center;margin:8px 0;flex-wrap:wrap;}
+.mock-btn{background:linear-gradient(160deg,#fbe9c0,#e8c988 60%,#c7a35c);border:1px solid var(--gilt);color:#4a2f10;padding:6px 12px;border-radius:4px;font-size:12px;cursor:default;}
+.hpbar{height:15px;background:#dccba0;border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+.hpfill{height:100%;background:linear-gradient(90deg,var(--blood),var(--bloodbright));}
+.mock-pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;border:1px solid var(--border);color:var(--ink-soft);}
+.danger-box{background:rgba(122,22,32,.08);border-left:3px solid var(--bloodbright);border-radius:3px;padding:9px 13px;margin-top:8px;color:#6e1420;font-style:italic;font-size:13.5px;}
+table.mock{width:100%;border-collapse:collapse;font-size:13px;}
+table.mock td,table.mock th{border:1px solid var(--border);padding:6px 9px;text-align:left;}
+table.mock th{background:rgba(122,22,32,.85);color:#f6e9d0;font-weight:normal;}
+
+/* the tassel bookmark — also the table-of-contents trigger */
+.tassel{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:5;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;animation:sway 4.5s ease-in-out infinite;transform-origin:top center;}
+@keyframes sway{0%,100%{transform:translateX(-50%) rotate(-2deg);}50%{transform:translateX(-50%) rotate(2deg);}}
+.tassel .cord{width:3px;height:30px;background:linear-gradient(180deg,var(--gilt-bright),var(--gilt));}
+.tassel .charm{width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#7a5322 75%);box-shadow:0 3px 7px rgba(0,0,0,.5);}
+.tassel .fringe{display:flex;gap:2px;margin-top:-3px;}
+.tassel .fringe span{width:2px;height:16px;background:linear-gradient(180deg,var(--bloodbright),#4a0f14);}
+.tassel:hover{animation-play-state:paused;}
+.tasselhint{position:absolute;top:64px;left:50%;transform:translateX(-50%);font-size:10.5px;color:#c7ad78;white-space:nowrap;opacity:0;transition:opacity .2s ease;pointer-events:none;}
+.tassel:hover + .tasselhint{opacity:1;}
+
+/* table of contents, unfurled like a small scroll */
+.toc{
+  position:absolute;top:68px;left:50%;transform:translateX(-50%);width:min(320px,80vw);z-index:6;
+  background:var(--page2);border:1px solid var(--gilt);border-radius:4px;box-shadow:0 20px 40px -14px rgba(0,0,0,.7);
+  padding:8px;max-height:340px;overflow-y:auto;
+}
+.toc[hidden]{display:none;}
+.toc button{
+  display:block;width:100%;text-align:left;background:none;border:none;border-radius:3px;
+  font-family:Georgia,serif;font-size:13px;color:var(--ink);padding:7px 10px;cursor:pointer;
+}
+.toc button:hover{background:rgba(179,135,74,.18);}
+.toc button.current{background:rgba(122,22,32,.12);color:#6e1420;font-weight:bold;}
+
+/* page-corner flip affordances, on the page itself */
+.corner-flip{position:absolute;bottom:0;width:0;height:0;cursor:pointer;z-index:4;transition:transform .15s ease;}
+.corner-flip.left{left:0;border-style:solid;border-width:0 0 30px 30px;border-color:transparent transparent rgba(110,80,40,.28) transparent;}
+.corner-flip.right{right:0;border-style:solid;border-width:0 30px 30px 0;border-color:transparent rgba(110,80,40,.28) transparent transparent;}
+.corner-flip:hover{transform:scale(1.18);}
+.corner-flip[disabled]{opacity:.25;pointer-events:none;}
+
+/* outer margin prev/next, for clarity alongside the thematic corner curls */
+.marginflip{
+  position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#6b4a1e 75%);border:none;cursor:pointer;
+  color:#3a2410;font-size:20px;box-shadow:0 4px 10px rgba(0,0,0,.5);z-index:4;
+}
+.marginflip.prev{left:-58px;} .marginflip.next{right:-58px;}
+.marginflip:hover{filter:brightness(1.1);}
+.marginflip[disabled]{opacity:.3;pointer-events:none;}
+@media(max-width:760px){.marginflip{display:none;}}
+
+.folio{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink-soft);z-index:3;letter-spacing:.5px;}
+
+@media(max-width:640px){
+  .leaf-text{padding:34px 24px 38px;}
+  .leather-frame{padding:12px;}
+}
+</style>
+</head>
+<body>
+<div class="caption">Option C — <b>The Illuminated Spellbook</b> — click the corners (or the tassel) to turn pages</div>
+<div class="silhouette l"></div><div class="silhouette r"></div>
+<div class="motes"></div>
+
+<div class="bookstage">
+  <button class="marginflip prev" id="prevOuter" aria-label="Previous page">‹</button>
+  <button class="marginflip next" id="nextOuter" aria-label="Next page">›</button>
+  <div class="leather-frame">
+    <div class="seal">✦</div>
+    <div class="pages" id="pages">
+      <div class="gilt-frame"></div>
+      <i class="corner-mark tl"></i><i class="corner-mark tr"></i><i class="corner-mark bl"></i><i class="corner-mark br"></i>
+      <div class="tassel" id="tassel"><div class="cord"></div><div class="charm"></div><div class="fringe"><span></span><span></span><span></span></div></div>
+      <div class="tasselhint">contents</div>
+      <div class="toc" id="toc" hidden></div>
+      <div class="leaf-text" id="leafText"></div>
+      <div class="corner-flip left" id="prevCorner"></div>
+      <div class="corner-flip right" id="nextCorner"></div>
+      <div class="folio" id="folio"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PAGES = [
+  {k:'overview',title:'Campaign at a Glance',sub:'A place to skim before a session',body:`
+    <p>A drowned coastal city, one tide from ruin. The lighthouse keeper has stopped answering, and the tide charts on the harbor wall no longer agree with the sea.</p>
+    <div class="mock-card"><div class="mock-row"><span class="mock-pill">Party</span> 4 characters, level 5</div>
+    <div class="mock-row"><span class="mock-pill">Stakes</span> The low quarter floods for good if the wardstone fails</div></div>`},
+  {k:'goals',title:'Player Goals &amp; Secrets',sub:'Sealed and secret — click to reveal',body:`
+    <div class="mock-card"><b>The Protector</b><div class="mock-row" style="margin-top:6px;"><span class="mock-pill">Win</span> Everyone the party is trying to save, survives</div>
+    <div class="mock-row"><span class="mock-pill">Fail</span> Someone they were protecting dies</div></div>`},
+  {k:'combat',title:'Combat Tracker',sub:'Round 3 — Elira\'s turn',body:`
+    <div class="mock-card"><div class="mock-row"><b>Elira</b> <span class="mock-pill">AC 15</span></div>
+    <div class="hpbar"><div class="hpfill" style="width:64%;"></div></div>
+    <div class="mock-row"><button class="mock-btn">Next Turn</button><button class="mock-btn">Dmg</button><button class="mock-btn">Heal</button></div></div>`},
+  {k:'villain',title:'The Drowned Choir — Live Tracker',sub:'Bloodied at half HP',body:`
+    <div class="mock-card"><div class="hpbar"><div class="hpfill" style="width:38%;"></div></div>
+    <div class="mock-row"><span class="mock-pill">Legendary Resistance</span> ● ● ○</div>
+    <div class="danger-box">Bloodied — the choir's voices crack into static.</div></div>`},
+  {k:'stats',title:'Stat Blocks',sub:'Monsters and key NPCs, ready to read aloud',body:`
+    <div class="mock-card"><table class="mock"><tr><th>Rot Sentinel</th><th></th></tr>
+    <tr><td>AC / HP</td><td>16 / 68</td></tr><tr><td>Speed</td><td>30 ft, swim 30 ft</td></tr></table></div>`},
+  {k:'notes',title:'DM Notes',sub:'Whatever you don\'t want to forget',body:`
+    <p>The innkeeper is lying about the second key. Don't let the party leave town without noticing the tide chart on the wall.</p>`}
+];
+const REST = ['Locations','Traps & Encounters','Random Events','Climax Tracker','Party Tracker','NPC Relationships','Session Recap','Backup & Setup'];
+REST.forEach(t=>PAGES.push({k:t.toLowerCase(),title:t,sub:'',body:`<p>This leaf will hold the real ${t} tool once the concept is wired into the working screen.</p>`}));
+
+let idx = 0;
+const pagesEl = document.getElementById('pages');
+const leafText = document.getElementById('leafText');
+const folio = document.getElementById('folio');
+const toc = document.getElementById('toc');
+const prevBtns = [document.getElementById('prevOuter'), document.getElementById('prevCorner')];
+const nextBtns = [document.getElementById('nextOuter'), document.getElementById('nextCorner')];
+
+function paint(){
+  const p = PAGES[idx];
+  leafText.innerHTML = `<h2>${p.title}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}`;
+  folio.textContent = (idx+1) + ' / ' + PAGES.length;
+  prevBtns.forEach(b=>b.disabled = idx===0);
+  nextBtns.forEach(b=>b.disabled = idx===PAGES.length-1);
+  renderToc();
+}
+function renderToc(){
+  toc.innerHTML = PAGES.map((p,i)=>`<button class="${i===idx?'current':''}" data-i="${i}">${p.title.replace(/&amp;/g,'&')}</button>`).join('');
+  toc.querySelectorAll('button').forEach(b=>b.onclick=()=>{ goTo(parseInt(b.dataset.i)); toc.hidden=true; });
+}
+function flip(delta){
+  const next = idx + delta;
+  if(next<0 || next>=PAGES.length || pagesEl.classList.contains('turning-out')) return;
+  pagesEl.classList.add('turning-out');
+  pagesEl.addEventListener('animationend', function h1(){
+    pagesEl.removeEventListener('animationend',h1);
+    idx = next; paint();
+    pagesEl.classList.remove('turning-out'); pagesEl.classList.add('turning-in');
+    pagesEl.addEventListener('animationend', function h2(){
+      pagesEl.removeEventListener('animationend',h2);
+      pagesEl.classList.remove('turning-in');
+    },{once:true});
+  },{once:true});
+}
+function goTo(i){
+  if(i===idx || i<0 || i>=PAGES.length || pagesEl.classList.contains('turning-out')) return;
+  pagesEl.classList.add('turning-out');
+  pagesEl.addEventListener('animationend', function h1(){
+    pagesEl.removeEventListener('animationend',h1);
+    idx = i; paint();
+    pagesEl.classList.remove('turning-out'); pagesEl.classList.add('turning-in');
+    pagesEl.addEventListener('animationend', function h2(){
+      pagesEl.removeEventListener('animationend',h2);
+      pagesEl.classList.remove('turning-in');
+    },{once:true});
+  },{once:true});
+}
+prevBtns.forEach(b=>b.onclick=()=>flip(-1));
+nextBtns.forEach(b=>b.onclick=()=>flip(1));
+document.getElementById('tassel').onclick = (e)=>{ e.stopPropagation(); toc.hidden = !toc.hidden; };
+document.addEventListener('click', (e)=>{ if(!toc.hidden && !toc.contains(e.target) && e.target.id!=='tassel') toc.hidden = true; });
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='ArrowLeft') flip(-1);
+  if(e.key==='ArrowRight') flip(1);
+});
+paint();
+</script>
+</body>
+</html>

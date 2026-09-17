@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option B — The Bound Tome</title>
+<style>
+:root{
+  --void:#08050a; --leather:#120a07; --leather-hi:#2a180e; --panel:#1d140d; --panel2:#251a10;
+  --gilt:#a5813d; --gilt-bright:#d9ae5c; --blood:#5c0f16; --bloodbright:#8f1b1f;
+  --witchfire:#3fdb96; --witchfire-deep:#0f3a28; --parch:#e8d6ac; --muted:#8a7455; --border:#4a3420;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;min-height:100vh;color:var(--parch);font-family:Georgia,'Iowan Old Style','Times New Roman',serif;
+  background:radial-gradient(ellipse at 50% -10%,rgba(63,219,150,.05),transparent 55%),var(--void);
+  overflow-x:hidden;
+}
+.caption{position:fixed;top:14px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.5px;color:var(--muted);z-index:80;text-align:center;}
+.caption b{color:var(--gilt-bright);}
+
+/* ---- one-time cover, hinged open ---- */
+.coverstage{position:fixed;inset:0;z-index:70;perspective:2400px;pointer-events:none;}
+.cover{
+  position:absolute;inset:0;transform-origin:left center;
+  background:
+    radial-gradient(ellipse at 30% 20%,rgba(165,129,61,.12),transparent 55%),
+    linear-gradient(160deg,var(--leather-hi),var(--leather) 60%,#080402);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
+  cursor:pointer;pointer-events:auto;transition:transform .9s cubic-bezier(.6,0,.15,1),opacity .9s ease .1s;
+  box-shadow:inset 0 0 120px rgba(0,0,0,.6);
+}
+.cover.open{transform:rotateY(-114deg);opacity:0;pointer-events:none;}
+.cover h1{margin:0;font-size:clamp(28px,5vw,44px);letter-spacing:3px;color:var(--gilt-bright);text-shadow:0 2px 0 rgba(0,0,0,.9),0 0 24px rgba(165,129,61,.35);}
+.cover p{margin:0;color:var(--muted);font-size:13px;letter-spacing:1px;}
+.clasp{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--gilt-bright),#5c3a17 75%);box-shadow:0 3px 8px rgba(0,0,0,.7);margin-top:14px;position:relative;}
+.clasp::after{content:'';position:absolute;inset:9px;border-radius:50%;background:var(--leather);}
+
+/* ---- the tome body (revealed behind the cover) ---- */
+.tome{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:70px 20px 60px;}
+.ribbons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0;padding:0 4px;}
+.ribbon{
+  position:relative;border:none;cursor:pointer;font-family:Georgia,serif;font-size:12.5px;color:var(--parch);
+  padding:9px 14px;border-radius:3px 3px 0 0;background:var(--panel2);
+  transition:transform .18s ease,opacity .18s ease,background .18s ease;opacity:.72;
+}
+.ribbon[data-group="danger"]{box-shadow:inset 0 -3px 0 var(--bloodbright);}
+.ribbon[data-group="world"]{box-shadow:inset 0 -3px 0 var(--witchfire);}
+.ribbon[data-group="ref"]{box-shadow:inset 0 -3px 0 var(--gilt);}
+.ribbon:hover{opacity:.92;}
+.ribbon.active{opacity:1;transform:translateY(-4px);background:var(--panel);font-weight:bold;}
+.groupkey{display:flex;gap:16px;margin:8px 4px 18px;font-size:11px;color:var(--muted);flex-wrap:wrap;}
+.groupkey span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+.dot.danger{background:var(--bloodbright);}
+.dot.world{background:var(--witchfire);}
+.dot.ref{background:var(--gilt);}
+
+.leaf-wrap{position:relative;min-height:380px;}
+.leaf{
+  position:relative;background-color:var(--panel);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 8% 6%,rgba(0,0,0,.4),transparent 55%),
+    radial-gradient(ellipse 55% 45% at 92% 94%,rgba(0,0,0,.35),transparent 55%),
+    repeating-linear-gradient(125deg,rgba(255,255,255,.02) 0px,rgba(255,255,255,.02) 1px,transparent 1px,transparent 5px);
+  border-top:2px solid var(--gilt);border-radius:0 3px 10px 10px;padding:26px 28px;
+  box-shadow:0 24px 50px -24px rgba(0,0,0,.9);
+}
+.leaf.out{animation:leafOut .22s ease forwards;}
+.leaf.in{animation:leafIn .26s ease forwards;}
+@keyframes leafOut{to{opacity:0;transform:translateX(-18px) rotate(-.6deg);}}
+@keyframes leafIn{from{opacity:0;transform:translateX(18px) rotate(.6deg);}to{opacity:1;transform:translateX(0) rotate(0);}}
+.leaf::after{ /* corner curl */
+  content:'';position:absolute;top:0;right:0;width:0;height:0;
+  border-style:solid;border-width:0 22px 22px 0;border-color:transparent var(--void) transparent transparent;
+  opacity:.5;
+}
+
+h2.pagehead{margin:0 0 4px;color:var(--gilt-bright);font-size:21px;letter-spacing:.5px;text-shadow:0 2px 0 rgba(0,0,0,.8);}
+.pagesub{margin:0 0 18px;color:var(--muted);font-size:13px;}
+.mock-card{background:rgba(0,0,0,.22);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-bottom:12px;}
+.mock-row{display:flex;gap:10px;align-items:center;margin:8px 0;flex-wrap:wrap;}
+.mock-btn{background:linear-gradient(160deg,#4a3016,#241407 60%,#130a04);border:1px solid var(--gilt);color:var(--gilt-bright);padding:6px 12px;border-radius:4px;font-size:12px;cursor:default;}
+.hpbar{height:16px;background:#160a08;border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+.hpfill{height:100%;width:64%;background:linear-gradient(90deg,var(--blood),var(--bloodbright));}
+.mock-pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;border:1px solid var(--border);color:var(--muted);}
+.danger-box{background:linear-gradient(160deg,#2a0e0e,#160606);border-left:4px solid var(--bloodbright);border-radius:4px;padding:10px 14px;margin-top:10px;color:#f3c8c8;font-style:italic;}
+table.mock{width:100%;border-collapse:collapse;font-size:13px;}
+table.mock td,table.mock th{border:1px solid var(--border);padding:6px 9px;text-align:left;}
+table.mock th{background:var(--blood);color:#fff;font-weight:normal;}
+@media(max-width:640px){.tome{padding:60px 14px 40px;}}
+</style>
+</head>
+<body>
+<div class="caption">Option B — <b>The Bound Tome</b> — click the cover once, then the ribbons slide between sections</div>
+
+<div class="coverstage">
+  <div class="cover" id="cover">
+    <h1>Your Campaign</h1>
+    <div class="clasp"></div>
+    <p>click to open the book</p>
+  </div>
+</div>
+
+<div class="tome">
+  <div class="ribbons" id="ribbons"></div>
+  <div class="groupkey"><span><i class="dot danger"></i>danger &amp; combat</span><span><i class="dot world"></i>world &amp; story</span><span><i class="dot ref"></i>reference</span></div>
+  <div class="leaf-wrap"><div class="leaf" id="leaf"></div></div>
+</div>
+
+<script>
+const PAGES = {
+  overview:{group:'ref',title:'Campaign at a Glance',sub:'A place to skim before a session',body:`
+    <div class="mock-card"><div class="mock-row"><span class="mock-pill">Setting</span> A drowned coastal city, one tide from ruin</div>
+    <div class="mock-row"><span class="mock-pill">Current Crisis</span> The lighthouse keeper has stopped answering</div></div>`},
+  combat:{group:'danger',title:'Combat Tracker',sub:"Round 3 — Elira's turn",body:`
+    <div class="mock-card"><div class="mock-row"><b>Elira</b> <span class="mock-pill">AC 15</span></div>
+    <div class="hpbar"><div class="hpfill"></div></div>
+    <div class="mock-row"><button class="mock-btn">Next Turn</button><button class="mock-btn">Dmg</button><button class="mock-btn">Heal</button></div></div>`},
+  villain:{group:'danger',title:'The Drowned Choir — Live Tracker',sub:'Bloodied at half HP',body:`
+    <div class="mock-card"><div class="hpbar"><div class="hpfill" style="width:38%;background:linear-gradient(90deg,#5c0f16,#8f1b1f)"></div></div>
+    <div class="mock-row"><span class="mock-pill">Legendary Resistance</span> ● ● ○</div>
+    <div class="danger-box">Bloodied — describe the choir's voices cracking into static.</div></div>`},
+  locations:{group:'world',title:'Locations',sub:'The drowned quarter',body:`
+    <div class="mock-card">The old fish market, half underwater at high tide. Something has been nesting under the pier.</div>`},
+  stats:{group:'ref',title:'Stat Blocks',sub:'Monsters and key NPCs, ready to read aloud',body:`
+    <div class="mock-card"><table class="mock"><tr><th>Rot Sentinel</th><th></th></tr>
+    <tr><td>AC / HP</td><td>16 / 68</td></tr><tr><td>Speed</td><td>30 ft, swim 30 ft</td></tr></table></div>`},
+  notes:{group:'ref',title:'DM Notes',sub:"Whatever you don't want to forget",body:`
+    <div class="mock-card">The innkeeper is lying about the second key. Don't let the party leave town without noticing the tide chart on the wall.</div>`}
+};
+const ORDER=['overview','combat','villain','locations','stats','notes'];
+let current='overview';
+const leaf=document.getElementById('leaf');
+const ribbons=document.getElementById('ribbons');
+
+function renderRibbons(){
+  ribbons.innerHTML = ORDER.map(k=>`<button class="ribbon ${k===current?'active':''}" data-group="${PAGES[k].group}" data-k="${k}">${PAGES[k].title.split(' — ')[0].split(',')[0]}</button>`).join('');
+  ribbons.querySelectorAll('.ribbon').forEach(b=>b.onclick=()=>goTo(b.dataset.k));
+}
+function paint(k){
+  const p=PAGES[k];
+  leaf.innerHTML = `<h2 class="pagehead">${p.title}</h2><p class="pagesub">${p.sub}</p>${p.body}`;
+}
+function goTo(k){
+  if(k===current || leaf.classList.contains('out')) return;
+  leaf.classList.add('out');
+  leaf.addEventListener('animationend', function h1(){
+    leaf.removeEventListener('animationend',h1);
+    current=k; paint(k); renderRibbons();
+    leaf.classList.remove('out'); leaf.classList.add('in');
+    leaf.addEventListener('animationend', function h2(){
+      leaf.removeEventListener('animationend',h2);
+      leaf.classList.remove('in');
+    },{once:true});
+  },{once:true});
+}
+paint(current); renderRibbons();
+
+document.getElementById('cover').addEventListener('click', function(){
+  this.classList.add('open');
+});
+</script>
+</body>
+</html>
